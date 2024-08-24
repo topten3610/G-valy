@@ -31,6 +31,9 @@ function App() {
     }
   };
 
+
+  
+
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
@@ -63,7 +66,7 @@ function App() {
     fetchUserDetails();
     /** Fetch cart product count */
     fetchUserAddToCart();
-  }, [user?._id]);
+  }, [user]);
 
   return (
     <>
