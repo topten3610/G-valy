@@ -19,7 +19,6 @@ const CategoryProduct = () => {
 
   const [selectCategory, setSelectCategory] = useState(urlCategoryListObject);
   const [filterCategoryList, setFilterCategoryList] = useState([]);
-
   const [sortBy, setSortBy] = useState("");
 
   const fetchData = async () => {
@@ -66,7 +65,6 @@ const CategoryProduct = () => {
 
     setFilterCategoryList(arrayOfCategory);
 
-    //format for url change when change on the checkbox
     const urlFormat = arrayOfCategory.map((el, index) => {
       if (arrayOfCategory.length - 1 === index) {
         return `category=${el}`;
@@ -93,6 +91,12 @@ const CategoryProduct = () => {
 
   return (
     <div className="container mx-auto p-4">
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
+          <div className="border-t-4 border-blue-500 border-solid rounded-full w-16 h-16 animate-spin"></div>
+        </div>
+      )}
+
       <div className="lg:hidden">
         {/* Mobile version - Filters */}
         <div className="bg-white p-4 mb-4">
@@ -125,7 +129,7 @@ const CategoryProduct = () => {
             Category
           </h3>
           <div className="text-sm flex flex-col gap-2 py-2">
-            {productCategory.map((categoryName, index) => (
+            {productCategory.map((categoryName) => (
               <div className="flex items-center gap-3" key={categoryName.value}>
                 <input
                   type="checkbox"
@@ -177,7 +181,7 @@ const CategoryProduct = () => {
             Category
           </h3>
           <form className="text-sm flex flex-col gap-2 py-2">
-            {productCategory.map((categoryName, index) => (
+            {productCategory.map((categoryName) => (
               <div className="flex items-center gap-3" key={categoryName.value}>
                 <input
                   type="checkbox"
@@ -201,9 +205,7 @@ const CategoryProduct = () => {
             Search Results: {data.length}
           </p>
           <div className="min-h-[calc(100vh-120px)] overflow-y-scroll max-h-[calc(100vh-120px)]">
-            {data.length !== 0 && !loading && (
-              <VerticalCard data={data} loading={loading} />
-            )}
+            {data.length !== 0 && <VerticalCard data={data} />}
           </div>
         </div>
       </div>
@@ -213,7 +215,7 @@ const CategoryProduct = () => {
         <p className="font-medium text-slate-800 text-lg my-2">
           Search Results: {data.length}
         </p>
-        <VerticalCard data={data} loading={loading} />
+        <VerticalCard data={data} />
       </div>
     </div>
   );

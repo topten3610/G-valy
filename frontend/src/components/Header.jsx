@@ -97,16 +97,16 @@ const Header = () => {
         </div>
 
         {/* Desktop Search Bar */}
-        <div className="hidden lg:flex items-center w-full justify-between max-w-sm border rounded-full focus-within:shadow pl-2">
+        <div className="hidden lg:flex items-center w-full justify-between max-w-lg border rounded-full bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
           <input
             type="text"
             placeholder="Search products..."
-            className="w-full outline-none"
+            className="w-full py-2 px-4 rounded-full outline-none border-none focus:ring-2 focus:ring-[#FF5722] transition-all duration-300"
             onChange={handleSearch}
             value={search}
           />
-          <button className="text-lg min-w-[50px] h-8 bg-[#FF5722] flex items-center justify-center rounded-r-full text-white">
-            <GrSearch />
+          <button className="bg-[#FF5722] flex items-center justify-center rounded-full p-2 ml-2 transition-transform duration-300 hover:scale-105 active:scale-95">
+            <GrSearch className="text-white text-xl" />
           </button>
         </div>
 

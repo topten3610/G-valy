@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useContext, useEffect, useRef, useState } from "react";
 import fetchCategoryWiseProduct from "../helpers/fetchCategoryWiseProduct";
 import displayINRCurrency from "../helpers/displayCurrency";
@@ -13,7 +14,6 @@ const HorizontalCardProduct = ({ category, heading }) => {
   const [loading, setLoading] = useState(true);
   const loadingList = new Array(13).fill(null);
 
-  const [scroll, setScroll] = useState(0);
   const [animateButton, setAnimateButton] = useState(null); // New state for animation
   const scrollElement = useRef();
 
@@ -59,7 +59,7 @@ const HorizontalCardProduct = ({ category, heading }) => {
         ref={scrollElement}
       >
         <button
-          className={`bg-white z-10 shadow-md rounded-full p-2 absolute left-0 text-2xl hidden md:block transition-transform duration-300 ${
+          className={` z-10 shadow-md rounded-full p-2 absolute bg-stone-300 text-slate-400 left-4 text-2xl hidden md:block transition-transform duration-300 ${
             animateButton === "left" ? "animate-pulse" : ""
           }`}
           onClick={scrollLeft}
@@ -67,7 +67,7 @@ const HorizontalCardProduct = ({ category, heading }) => {
           <FaAngleLeft />
         </button>
         <button
-          className={`bg-white z-10 shadow-md rounded-full p-2 absolute right-0 text-2xl hidden md:block transition-transform duration-300 ${
+          className={` z-10 shadow-md rounded-full p-2 absolute bg-stone-300 text-slate-400 right-4 text-2xl hidden md:block transition-transform duration-300 ${
             animateButton === "right" ? "animate-pulse" : ""
           }`}
           onClick={scrollRight}
@@ -97,7 +97,7 @@ const HorizontalCardProduct = ({ category, heading }) => {
               <Link
                 key={index}
                 to={`product/${product?._id}`}
-                className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 bg-white rounded-sm shadow flex items-center transform hover:scale-105 transition-transform duration-300"
+                className=" min-w-[280px] md:min-w-[320px]  h-36 bg-white rounded-sm shadow flex items-center transform hover:scale-105 transition-transform duration-300"
               >
                 <div className="bg-slate-200 h-full p-4 min-w-[120px] md:min-w-[145px] flex items-center justify-center">
                   <img
@@ -122,7 +122,7 @@ const HorizontalCardProduct = ({ category, heading }) => {
                     </p>
                   </div>
                   <button
-                    className="text-sm bg-[#E64A19] hover:bg-[#d84d2f] text-white px-3 py-1 rounded-full transition-colors duration-300"
+                    className="text-sm  bg-[#E64A19] hover:bg-[#d84d2f] text-white px-3 py-1 rounded-full transition-colors duration-300"
                     onClick={(e) => handleAddToCart(e, product?._id)}
                   >
                     Add to Cart

@@ -56,7 +56,7 @@ const [animateButton, setAnimateButton] = useState(null);
         ref={scrollElement}
       >
         <button
-          className={`bg-white z-10 shadow-md rounded-full p-2 absolute left-0 text-2xl hidden md:block transition-transform duration-300 ${
+          className={`z-10 shadow-md rounded-full p-2 absolute bg-stone-300 text-slate-400 left-4 text-2xl hidden md:block transition-transform duration-300 ${
             animateButton === "left" ? "animate-pulse" : ""
           }`}
           onClick={scrollLeft}
@@ -64,7 +64,7 @@ const [animateButton, setAnimateButton] = useState(null);
           <FaAngleLeft />
         </button>
         <button
-          className={`bg-white z-10 shadow-md rounded-full p-2 absolute right-0 text-2xl hidden md:block transition-transform duration-300 ${
+          className={`z-10 shadow-md rounded-full p-2 absolute bg-stone-300 text-slate-400 right-4 text-2xl hidden md:block transition-transform duration-300 ${
             animateButton === "right" ? "animate-pulse" : ""
           }`}
           onClick={scrollRight}

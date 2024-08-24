@@ -17,22 +17,29 @@ function App() {
   const user = useSelector((state) => state.user.user);
   console.log(user);
   const [cartProductCount, setCartProductCount] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const fetchUserDetails = async () => {
-    const dataResponse = await fetch(SummaryApi.current_user.url, {
-      method: SummaryApi.current_user.method,
-      credentials: "include",
-    });
+    try {
+      setLoading(true);
+      const dataResponse = await fetch(SummaryApi.current_user.url, {
+        method: SummaryApi.current_user.method,
+        credentials: "include",
+      });
 
-    const dataApi = await dataResponse.json();
+      const dataApi = await dataResponse.json();
 
-    if (dataApi.success) {
-      dispatch(setUserDetails(dataApi.data));
+      if (dataApi.success) {
+        dispatch(setUserDetails(dataApi.data));
+        setLoading(false);
+      } else {
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log("error is here", error);
+      setLoading(false);
     }
   };
-
-
-  
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -66,7 +73,16 @@ function App() {
     fetchUserDetails();
     /** Fetch cart product count */
     fetchUserAddToCart();
-  }, [user]);
+  }, [dispatch, user?._id]);
+
+  if (loading) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
+        <div className="border-t-4 border-blue-500 border-solid rounded-full w-16 h-16 animate-spin"></div>
+      </div>
+    );
+  }
+    
 
   return (
     <>
