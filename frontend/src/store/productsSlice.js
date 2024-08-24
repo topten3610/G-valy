@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import SummaryApi from "../common";
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async (_, { dispatch }) => {
     dispatch(setLoading(true));
     try {
-      const response = await axios.get("http://localhost:8000/api/get-product");
+      const response = await axios.get(`${SummaryApi.allProduct.url}`);
       dispatch(setProducts(response.data));
     } catch (error) {
       dispatch(setError(error.message));

@@ -16,8 +16,10 @@ app.use(
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); 
 app.use(cookieParser())
-
 app.use("/api",router)
+app.get("/test", (req,res) => {
+  res.send("Server is running")
+})
 
 const PORT = process.env.PORT || 8080
 
