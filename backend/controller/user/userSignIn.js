@@ -31,13 +31,14 @@ async function userSignInController(req, res) {
         tokenData,
         process.env.TOKEN_SECRET_KEY || "abcdefghjklmopqrstuvwxyz",
         {
-          expiresIn: 60 * 60 * 8,
+          expiresIn: (60 * 60 * 8),
         }
       );
 
       const tokenOption = {
         httpOnly: true,
         secure: true,
+        sameSite: "none",
       };
 
       res.cookie("token", token, tokenOption).status(200).json({
