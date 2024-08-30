@@ -1,21 +1,24 @@
 /* eslint-disable react/prop-types */
-import { useContext } from "react";
-import scrollTop from "../helpers/scrollTop";
+
 import { FaShoppingCart } from "react-icons/fa";
 import displayINRCurrency from "../helpers/displayCurrency";
-import Context from "../context";
+
 import addToCart from "../helpers/addToCart";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserAddToCartCount, fetchUserCartData } from "../store/cartsSlice";
 
 const VerticalCard = ({ loading, data = [] }) => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state?.user?.user);
   const loadingList = new Array(13).fill(null);
-  const { fetchUserAddToCart } = useContext(Context);
+
 
   const handleAddToCart = async (e, id) => {
     await addToCart(e, user?._id, id);
-    fetchUserAddToCart();
+      dispatch(fetchUserCartData());
+      dispatch(fetchUserAddToCartCount());
+   
   };
 
   return (

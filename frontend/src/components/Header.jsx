@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import {  useEffect, useRef, useState } from "react";
 import { GrSearch } from "react-icons/gr";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
@@ -8,16 +8,18 @@ import SummaryApi from "../common";
 import { toast } from "react-toastify";
 import { setUserDetails } from "../store/userSlice";
 import ROLE from "../common/role";
-import Context from "../context";
+
 import ConfirmLogoutModal from "./ConfirmLogoutModal";
 
 const Header = () => {
-  const user = useSelector((state) => state?.user?.user);
   const dispatch = useDispatch();
+  const user = useSelector((state) => state?.user?.user);
+  const { cartsData, cartsCount } = useSelector((state) => state.carts);
+
   const [menuDisplay, setMenuDisplay] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
-  const context = useContext(Context);
+
   const navigate = useNavigate();
   const searchInput = useLocation();
   const URLSearch = new URLSearchParams(searchInput?.search);
@@ -62,12 +64,12 @@ const Header = () => {
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
-    if (context?.cartProductCount > 0) {
+    if (cartsCount > 0) {
       setAnimate(true);
       const timer = setTimeout(() => setAnimate(false), 500);
       return () => clearTimeout(timer);
     }
-  }, [context?.cartProductCount]);
+  }, [cartsCount]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -132,15 +134,15 @@ const Header = () => {
         )}
 
         <div className="flex items-center gap-7">
-          <Link to={"/cart"} className="text-2xl relative">
+          <Link to={"/cart"} className="text-2xl text-[#FF5722] relative">
             <FaShoppingCart />
-            {context?.cartProductCount > 0 && (
+            {cartsCount >= 0 && (
               <div
                 className={`bg-[#FF5722] text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3 ${
                   animate ? "badge-animate" : ""
                 }`}
               >
-                <p className="text-sm">{context?.cartProductCount}</p>
+                <p className="text-sm">{cartsCount}</p>
               </div>
             )}
           </Link>

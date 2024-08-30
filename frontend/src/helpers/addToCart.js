@@ -2,6 +2,7 @@ import SummaryApi from "../common";
 import { toast } from "react-toastify";
 
 const addToCart = async (e, userId, productId) => {
+
   try {
     e?.stopPropagation();
     e?.preventDefault();
@@ -49,7 +50,6 @@ const addToCart = async (e, userId, productId) => {
       );
 
       if (productIndex > -1) {
-        // Product already in cart, update quantity
         cart.items[productIndex].quantity += 1;
       } else {
         // Add new product to cart

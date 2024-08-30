@@ -2,11 +2,8 @@ import CategoryList from "../components/CategoryList";
 import BannerProduct from "../components/BannerProduct";
 import HorizontalCardProduct from "../components/HorizontalCardProduct";
 import VerticalCardProduct from "../components/VerticalCardProduct";
-import { useSelector } from "react-redux";
 
 const Home = () => {
-  const { products, loading, error } = useSelector((state) => state.products);
-  console.log(products)
   return (
     <div>
       <CategoryList />
@@ -18,10 +15,9 @@ const Home = () => {
         heading={"Popular's man product"}
       />
 
-      <VerticalCardProduct category={"mobiles"} heading={"Mobiles"} />
-      <VerticalCardProduct category={"Mouse"} heading={"Mouse"} />
-      <VerticalCardProduct category={"televisions"} heading={"Televisions"} />
-      
+      <VerticalCardProduct category={"woman"} heading={"woman"} />
+      <VerticalCardProduct category={"Fashion"} heading={"Fashion"} />
+      <VerticalCardProduct category={"Beauties"} heading={"Beauties"} />
     </div>
   );
 };

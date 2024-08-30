@@ -1,25 +1,30 @@
 /* eslint-disable react/prop-types */
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import fetchCategoryWiseProduct from "../helpers/fetchCategoryWiseProduct";
 import displayINRCurrency from "../helpers/displayCurrency";
 
 import { Link } from "react-router-dom";
 import addToCart from "../helpers/addToCart";
-import Context from "../context";
+
 import scrollTop from "../helpers/scrollTop";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchUserAddToCartCount,
+  fetchUserCartData,
+} from "../store/cartsSlice";
 
 const CategroyWiseProductDisplay = ({ category, heading }) => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state?.user?.user);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const loadingList = new Array(13).fill(null);
 
-  const { fetchUserAddToCart } = useContext(Context);
-
   const handleAddToCart = async (e, id) => {
     await addToCart(e, user?._id, id);
-    fetchUserAddToCart();
+
+    dispatch(fetchUserCartData());
+    dispatch(fetchUserAddToCartCount());
   };
 
   const fetchData = async () => {

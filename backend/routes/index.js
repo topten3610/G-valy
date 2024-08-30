@@ -29,6 +29,7 @@ const {
   deleteOrderController,
 } = require("../controller/orders/createOrderController");
 const deleteProductController = require("../controller/product/deleteProduct");
+const orderAuth = require("../middleware/orderAuth");
 
 
 router.post("/signup", userSignUpController);
@@ -43,10 +44,11 @@ router.post("/upload-product", authToken, UploadProductController);
 router.delete("/delete-product/:id", authToken, deleteProductController);
 
 // order product
-router.post("/create-order", authToken, createOrderController);
+router.post("/create-order", orderAuth, createOrderController);
 router.get("/get-allorder", authToken, getAllOrderController);
 router.put("/update-order/:id", authToken, updateOrderStatusController);
 router.delete("/delete-order/:id", authToken, deleteOrderController);
+
 
 //product
 router.get("/get-product", getProductController);

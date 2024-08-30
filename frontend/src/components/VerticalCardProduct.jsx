@@ -1,36 +1,39 @@
 /* eslint-disable react/prop-types */
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import fetchCategoryWiseProduct from "../helpers/fetchCategoryWiseProduct";
 import displayINRCurrency from "../helpers/displayCurrency";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import addToCart from "../helpers/addToCart";
-import Context from "../context";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaShoppingCart } from "react-icons/fa";
+import {
+  fetchUserAddToCartCount,
+  fetchUserCartData,
+} from "../store/cartsSlice";
 
 const VerticalCardProduct = ({ category, heading }) => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state?.user?.user);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const loadingList = new Array(13).fill(null);
   const scrollElement = useRef();
-  const { fetchUserAddToCart } = useContext(Context);
-const [animateButton, setAnimateButton] = useState(null);
+  const [animateButton, setAnimateButton] = useState(null);
+
   const handleAddToCart = async (e, productId) => {
     await addToCart(e, user?._id, productId);
-    fetchUserAddToCart();
-  };
-
-  const fetchData = async () => {
-    setLoading(true);
-    const categoryProduct = await fetchCategoryWiseProduct(category);
-    setLoading(false);
-    setData(categoryProduct?.data);
+    dispatch(fetchUserCartData());
+    dispatch(fetchUserAddToCartCount());
   };
 
   useEffect(() => {
-    fetchData();
+    (async () => {
+      setLoading(true);
+      const categoryProduct = await fetchCategoryWiseProduct(category);
+      setLoading(false);
+      setData(categoryProduct?.data);
+    })();
   }, [category]);
 
   const scrollRight = () => {

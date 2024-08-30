@@ -37,43 +37,54 @@ const AllUsers = () => {
   }, []);
 
   return (
-    <div className="bg-white pb-4 px-4">
-      <table className="w-full table-auto">
-        <thead>
-          <tr className="bg-black text-white text-xs sm:text-sm">
-            <th className="py-2 px-1 sm:px-2">Sr.</th>
-            <th className="py-2 px-1 sm:px-2">Name</th>
-            <th className="py-2 px-1 sm:px-2">Email</th>
-            <th className="py-2 px-1 sm:px-2">Role</th>
-            <th className="py-2 px-1 sm:px-2">Created Date</th>
-            <th className="py-2 px-1 sm:px-2">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {allUser.map((el, index) => (
-            <tr key={index} className="text-xs sm:text-sm border-b">
-              <td className="py-2 px-1 sm:px-2">{index + 1}</td>
-              <td className="py-2 px-1 sm:px-2">{el?.name}</td>
-              <td className="py-2 px-1 sm:px-2">{el?.email}</td>
-              <td className="py-2 px-1 sm:px-2">{el?.role}</td>
-              <td className="py-2 px-1 sm:px-2">
-                {moment(el?.createdAt).format("LL")}
-              </td>
-              <td className="py-2 px-1 sm:px-2">
-                <button
-                  className="bg-green-100 p-1 sm:p-2 rounded-full cursor-pointer hover:bg-green-500 hover:text-white"
-                  onClick={() => {
-                    setUpdateUserDetails(el);
-                    setOpenUpdateRole(true);
-                  }}
-                >
-                  <MdModeEdit />
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="bg-gray-100 min-h-screen p-4 sm:p-6">
+      <div className="max-w-7xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        <div className="p-4 border-b border-gray-200">
+          <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">
+            All Users
+          </h1>
+        </div>
+        <div className="p-4">
+          <div className="overflow-x-auto">
+            <table className="min-w-full table-auto">
+              <thead>
+                <tr className="bg-gray-800 text-white text-xs sm:text-sm">
+                  <th className="py-2 px-4 text-left">Sr.</th>
+                  <th className="py-2 px-4 text-left">Name</th>
+                  <th className="py-2 px-4 text-left">Email</th>
+                  <th className="py-2 px-4 text-left">Role</th>
+                  <th className="py-2 px-4 text-left">Created Date</th>
+                  <th className="py-2 px-4 text-left">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {allUser.map((el, index) => (
+                  <tr key={el._id} className="border-b hover:bg-gray-50">
+                    <td className="py-3 px-4">{index + 1}</td>
+                    <td className="py-3 px-4">{el?.name}</td>
+                    <td className="py-3 px-4">{el?.email}</td>
+                    <td className="py-3 px-4">{el?.role}</td>
+                    <td className="py-3 px-4">
+                      {moment(el?.createdAt).format("LL")}
+                    </td>
+                    <td className="py-3 px-4">
+                      <button
+                        className="bg-green-500 text-white p-2 rounded-full transition-transform transform hover:scale-105 focus:outline-none"
+                        onClick={() => {
+                          setUpdateUserDetails(el);
+                          setOpenUpdateRole(true);
+                        }}
+                      >
+                        <MdModeEdit size={20} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
       {openUpdateRole && (
         <ChangeUserRole

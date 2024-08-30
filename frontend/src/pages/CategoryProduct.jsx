@@ -91,12 +91,6 @@ const CategoryProduct = () => {
 
   return (
     <div className="container mx-auto p-4">
-      {loading && (
-        <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
-          <div className="border-t-4 border-blue-500 border-solid rounded-full w-16 h-16 animate-spin"></div>
-        </div>
-      )}
-
       <div className="lg:hidden">
         {/* Mobile version - Filters */}
         <div className="bg-white p-4 mb-4">
@@ -200,22 +194,37 @@ const CategoryProduct = () => {
         </div>
 
         {/* Desktop version - Right side */}
-        <div className="px-4">
-          <p className="font-medium text-slate-800 text-lg my-2">
-            Search Results: {data.length}
-          </p>
-          <div className="min-h-[calc(100vh-120px)] overflow-y-scroll max-h-[calc(100vh-120px)]">
-            {data.length !== 0 && <VerticalCard data={data} />}
+        {loading ? (
+          <div className="inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
+            <div className="border-t-4 border-blue-500 border-solid rounded-full w-16 h-16 animate-spin"></div>
           </div>
-        </div>
+        ) : (
+          <div className="px-4">
+            <p className="font-medium text-slate-800 text-lg my-2">
+              Search Results: {data.length}
+            </p>
+            <div className="min-h-[calc(100vh-120px)] overflow-y-scroll max-h-[calc(100vh-120px)]">
+              {data.length !== 0 && <VerticalCard data={data} />}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Mobile version - Product grid */}
+
       <div className="lg:hidden">
-        <p className="font-medium text-slate-800 text-lg my-2">
-          Search Results: {data.length}
-        </p>
-        <VerticalCard data={data} />
+        {loading ? (
+          <div className="inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
+            <div className="border-t-4 border-blue-500 border-solid rounded-full w-16 h-16 animate-spin"></div>
+          </div>
+        ) : (
+          <>
+            <p className="font-medium text-slate-800 text-lg my-2">
+              Search Results: {data.length}
+            </p>
+            <VerticalCard data={data} />
+          </>
+        )}
       </div>
     </div>
   );

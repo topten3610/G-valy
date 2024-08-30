@@ -1,19 +1,23 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import loginIcons from "../assest/signin.gif";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import SummaryApi from "../common";
 import { toast } from "react-toastify";
-import Context from "../context";
+
+import { fetchUserDetails } from "../store/userSlice";
+import { useDispatch } from "react-redux";
+import { fetchUserAddToCartCount } from "../store/cartsSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({
     email: "",
     password: "",
   });
   const navigate = useNavigate();
-  const { fetchUserDetails, fetchUserAddToCart } = useContext(Context);
+  const [loading, setLoading] = useState(false);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -25,7 +29,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     const dataResponse = await fetch(SummaryApi.signIn.url, {
       method: SummaryApi.signIn.method,
       credentials: "include",
@@ -39,15 +43,18 @@ const Login = () => {
 
     if (dataApi.success) {
       toast.success(dataApi.message, {
-        autoClose: 1000, // Notification will close after 5 seconds
+        autoClose: 2000, // Notification will close after 5 seconds
       });
+      setLoading(false);
       navigate("/");
-      fetchUserDetails();
-      fetchUserAddToCart();
+
+      dispatch(fetchUserDetails());
+      dispatch(fetchUserAddToCartCount());
     } else {
       toast.error(dataApi.message, {
         autoClose: 1000, // Notification will close after 5 seconds
       });
+      setLoading(false);
     }
   };
 
@@ -118,7 +125,8 @@ const Login = () => {
             type="submit"
             className="w-full py-3 bg-[#E64A19] text-white font-semibold rounded-lg shadow-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition"
           >
-            Login
+            {" "}
+            {loading ? "Logging.." : "Login"}
           </button>
         </form>
 

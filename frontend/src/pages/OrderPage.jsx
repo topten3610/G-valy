@@ -1,146 +1,69 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import SummaryApi from "../common";
 import { toast } from "react-toastify";
 import { MdDelete } from "react-icons/md";
 import displayINRCurrency from "../helpers/displayCurrency";
-import Context from "../context";
+
 import LoadingSpinner from "../components/LoadingSpinner";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SuccessModal from "../components/orderSuccessModal/OrderSuccessModal";
+import {
+  fetchUserAddToCartCount,
+  fetchUserCartData,
+  setCartsCount,
+} from "../store/cartsSlice";
+import {
+  calculateTotalAmount,
+  fetchUserCartDataForOrder,
+  increaseSetProduct,
+  setOrderInput,
+} from "../store/orderSlice";
 
 const OrderForm = () => {
-  const { products } = useSelector((state) => state.products);
-  const user = useSelector((state) => state?.user?.user);
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
+
+  const {
+    name,
+    email,
+    phone,
+    fullAddress,
+    district,
+    notInsideOrOutsideOfDhaka,
+    products,
+    orderStatus,
+    totalAmount,
+    deliveryCharge,
+    loading,
+  } = useSelector((state) => state.order);
+
   const navigate = useNavigate();
-  const { fetchUserAddToCart } = useContext(Context);
-  const [order, setOrder] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    fullAddress: "",
-    district: "",
-    notInsideOrOutsideOfDhaka: "",
-    products: [],
-    orderStatus: "Pending",
-  });
-  const [totalAmount, setTotalAmount] = useState(0);
-  const [deliveryCharge, setDeliveryCharge] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [isModalVisible, setIsModalVisible] = useState(false); // Modal visibility state
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   // Fetch cart data
-  const fetchCartData = async () => {
-    try {
-      if (user?._id) {
-        // Fetch cart data from the server
-        const response = await fetch(SummaryApi.addToCartProductView.url, {
-          method: SummaryApi.addToCartProductView.method,
-          credentials: "include",
-          headers: {
-            "content-type": "application/json",
-          },
-        });
-        const responseData = await response.json();
-        const cartItems = responseData.data || [];
-        console.log(isModalVisible)
-        // if (isModalVisible == false) {
-        //   if (cartItems.length <= 0) {
-        //     navigate("/");
-        //   }
-        // }
-        const products = cartItems.map((item) => ({
-          deleteById: item._id,
-          productId: item.productId._id,
-          productName: item.productId.brandName,
-          productImage: item.productId.productImage[0],
-          category: item.productId.category,
-          quantity: item.quantity,
-          price: item.productId.sellingPrice,
-        }));
-        setOrder((prevOrder) => ({
-          ...prevOrder,
-          products,
-        }));
-        calculateTotalAmount(products, order.notInsideOrOutsideOfDhaka);
-        setLoading(false);
-      } else {
-        // Retrieve cart data from local storage
-        const cart = JSON.parse(localStorage.getItem("cart")) || { items: [] };
-        const cartItems = cart.items;
-        // if (cartItems.length <= 0) {
-        //   navigate("/");
-        // }
-        // Map local storage cart items to product details from Redux
-        const productsInCart = cartItems.map((item) => {
-          const product = products?.data?.find((p) => p._id === item.productId);
-          console.log(product);
-          return {
-            deleteById: item._id,
-            productId: product?._id || item.productId,
-            productName: product?.brandName || "Unknown Product",
-            productImage: product?.productImage[0] || "",
-            category: product?.category || "",
-            quantity: item.quantity,
-            price: product?.sellingPrice || 0,
-          };
-        });
-        setOrder((prevOrder) => ({
-          ...prevOrder,
-          products: productsInCart,
-        }));
-        calculateTotalAmount(productsInCart, order.notInsideOrOutsideOfDhaka);
-        setLoading(false);
-      }
-    } catch (error) {
-      console.error("Error fetching cart data:", error);
-      toast.error("Failed to load cart data.");
-    }
-  };
 
   useEffect(() => {
-    fetchCartData();
-  }, [user?._id, products?.data]);
+    dispatch(fetchUserCartDataForOrder());
+  }, [dispatch]);
 
-  function calculateTotalAmount(products, location) {
-    const total = products.reduce(
-      (acc, product) => acc + product.quantity * product.price,
-      0
-    );
-    const charge =
-      location === "ঢাকার ভিতরে" ? 70 : location === "ঢাকার বাহিরে" ? 130 : 0;
-    setDeliveryCharge(charge);
-    setTotalAmount(total + charge);
-  }
+  useEffect(() => {
+    dispatch(calculateTotalAmount());
+  }, [dispatch, products]);
 
   const handleLocationChange = (e) => {
-    const updatedOrder = {
-      ...order,
-      notInsideOrOutsideOfDhaka: e.target.value,
-    };
-    setOrder(updatedOrder);
-    calculateTotalAmount(updatedOrder.products, e.target.value);
+    dispatch(setOrderInput({ notInsideOrOutsideOfDhaka: e.target.value }));
+    dispatch(calculateTotalAmount(e.target.value));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const {
-        name,
-        email,
-        phone,
-        fullAddress,
-        district,
-        notInsideOrOutsideOfDhaka,
-        products,
-        orderStatus,
-      } = order;
-
       if (products.length === 0) {
-        toast.error("Please select at least one product")
-        return
+        toast.error("Please select at least one product");
+        return;
       }
-
 
       const response = await fetch(SummaryApi.createOrder.url, {
         method: SummaryApi.createOrder.method,
@@ -167,28 +90,27 @@ const OrderForm = () => {
           totalAmount,
         }),
       });
-
+       const s = await response.json()
+      console.log(s);
       if (!response.ok) throw new Error("Failed to place order");
 
-      const result = await response.json();
       toast.success("Order placed successfully!");
       setIsModalVisible(true); // Show the success modal
       // Clear cart items from local storage
       localStorage.removeItem("cart");
-      fetchCartData();
-      fetchUserAddToCart();
-      setOrder({
-        name: "",
-        email: "",
-        phone: "",
-        fullAddress: "",
-        district: "",
-        notInsideOrOutsideOfDhaka: "",
-        products: [],
-        orderStatus: "Pending",
-      });
-      setTotalAmount(0);
-      setDeliveryCharge(0);
+      dispatch(fetchUserCartDataForOrder());
+      dispatch(fetchUserCartData());
+      dispatch(fetchUserAddToCartCount());
+      dispatch(
+        setOrderInput({
+          name: "",
+          email: "",
+          phone: "",
+          fullAddress: "",
+          district: "",
+          notInsideOrOutsideOfDhaka: "",
+        })
+      );
     } catch (error) {
       console.error("There was an error placing the order!", error);
       toast.error("Failed to place order.");
@@ -199,6 +121,7 @@ const OrderForm = () => {
     try {
       if (user?._id) {
         // Authorized user - Use API to delete the product
+
         const response = await fetch(SummaryApi.deleteCartProduct.url, {
           method: SummaryApi.deleteCartProduct.method,
           credentials: "include",
@@ -213,8 +136,9 @@ const OrderForm = () => {
         const responseData = await response.json();
 
         if (responseData.success) {
-          fetchCartData();
-          fetchUserAddToCart();
+          dispatch(fetchUserCartDataForOrder());
+          dispatch(fetchUserCartData());
+          dispatch(fetchUserAddToCartCount());
         } else {
           console.error("Failed to delete the cart product");
         }
@@ -228,18 +152,21 @@ const OrderForm = () => {
           "cart",
           JSON.stringify({ ...cart, items: updatedItems })
         );
-
-        fetchCartData();
-        fetchUserAddToCart();
+        const localCart = JSON.parse(localStorage.getItem("cart"));
+        const cartProductCount = localCart
+          ? localCart?.items?.reduce((acc, item) => acc + item.quantity, 0)
+          : 0;
+        dispatch(fetchUserCartDataForOrder());
+        dispatch(fetchUserCartData());
+        dispatch(setCartsCount(cartProductCount));
       }
 
       // Update order state and recalculate the total amount
-      const products = order.products.filter(
+      const updatedProduct = products.filter(
         (product) => product._id !== deleteById
       );
-      setOrder({ ...order, products });
-      calculateTotalAmount(products, order.notInsideOrOutsideOfDhaka);
-      fetchCartData();
+      dispatch(increaseSetProduct(updatedProduct));
+      dispatch(calculateTotalAmount(notInsideOrOutsideOfDhaka));
     } catch (error) {
       console.error("Error deleting cart product:", error);
     }
@@ -264,8 +191,9 @@ const OrderForm = () => {
         const responseData = await response.json();
 
         if (responseData.success) {
-          fetchCartData();
-          fetchUserAddToCart();
+          dispatch(fetchUserCartDataForOrder());
+          dispatch(fetchUserCartData());
+          dispatch(fetchUserAddToCartCount());
         } else {
           console.error(
             "Failed to update product quantity:",
@@ -284,18 +212,23 @@ const OrderForm = () => {
           "cart",
           JSON.stringify({ ...cart, items: updatedItems })
         );
-        fetchCartData();
-        fetchUserAddToCart();
+        const cart2 = JSON.parse(localStorage.getItem("cart"));
+        const cartProductCount = cart
+          ? cart2?.items?.reduce((acc, item) => acc + item.quantity, 0)
+          : 0;
+        dispatch(fetchUserCartDataForOrder());
+        dispatch(fetchUserCartData());
+        dispatch(setCartsCount(cartProductCount));
       }
-
       // Update order state and recalculate the total amount
-      const products = order.products.map((product) =>
+      const updatedProduct = products.map((product) =>
         product.productId === productId
           ? { ...product, quantity: quantity + 1 }
           : product
       );
-      setOrder({ ...order, products });
-      calculateTotalAmount(products, order.notInsideOrOutsideOfDhaka);
+      console.log(updatedProduct);
+      dispatch(increaseSetProduct(updatedProduct));
+      dispatch(calculateTotalAmount(notInsideOrOutsideOfDhaka));
     } catch (error) {
       console.error("Error in increasing quantity:", error);
     }
@@ -321,8 +254,9 @@ const OrderForm = () => {
           const responseData = await response.json();
 
           if (responseData.success) {
-            fetchCartData();
-            fetchUserAddToCart();
+            dispatch(fetchUserCartDataForOrder());
+            dispatch(fetchUserCartData());
+            dispatch(fetchUserAddToCartCount());
           } else {
             console.error(
               "Failed to update product quantity:",
@@ -341,18 +275,25 @@ const OrderForm = () => {
             "cart",
             JSON.stringify({ ...cart, items: updatedItems })
           );
-          fetchCartData();
-          fetchUserAddToCart();
+
+          const cart2 = JSON.parse(localStorage.getItem("cart"));
+
+          const cartProductCount = cart2
+            ? cart2?.items?.reduce((acc, item) => acc + item.quantity, 0)
+            : 0;
+          dispatch(fetchUserCartDataForOrder());
+          dispatch(fetchUserCartData());
+          dispatch(setCartsCount(cartProductCount));
         }
 
         // Update order state and recalculate the total amount
-        const products = order.products.map((product) =>
+        const updatedProduct = products.map((product) =>
           product.productId === productId
             ? { ...product, quantity: quantity - 1 }
             : product
         );
-        setOrder({ ...order, products });
-        calculateTotalAmount(products, order.notInsideOrOutsideOfDhaka);
+        dispatch(increaseSetProduct(updatedProduct));
+        dispatch(calculateTotalAmount(notInsideOrOutsideOfDhaka));
       } catch (error) {
         console.error("Error in decreasing quantity:", error);
       }
@@ -389,8 +330,10 @@ const OrderForm = () => {
               <input
                 type="text"
                 name="name"
-                value={order.name}
-                onChange={(e) => setOrder({ ...order, name: e.target.value })}
+                value={name}
+                onChange={(e) =>
+                  dispatch(setOrderInput({ name: e.target.value }))
+                }
                 required
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
@@ -410,8 +353,10 @@ const OrderForm = () => {
               <input
                 type="email"
                 name="email"
-                value={order.email}
-                onChange={(e) => setOrder({ ...order, email: e.target.value })}
+                value={email}
+                onChange={(e) =>
+                  dispatch(setOrderInput({ email: e.target.value }))
+                }
                 required
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
@@ -431,8 +376,10 @@ const OrderForm = () => {
               <input
                 type="text"
                 name="phone"
-                value={order.phone}
-                onChange={(e) => setOrder({ ...order, phone: e.target.value })}
+                value={phone}
+                onChange={(e) =>
+                  dispatch(setOrderInput({ phone: e.target.value }))
+                }
                 required
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
@@ -452,10 +399,10 @@ const OrderForm = () => {
               <input
                 type="text"
                 name="fullAddress"
-                value={order.fullAddress}
+                value={fullAddress}
                 placeholder="বাসা/ফ্ল্যাট নম্বর, পাড়া-মহল্লার নাম, পরিচিতির এলাকা উল্লেখ করুন"
                 onChange={(e) =>
-                  setOrder({ ...order, fullAddress: e.target.value })
+                  dispatch(setOrderInput({ fullAddress: e.target.value }))
                 }
                 required
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
@@ -476,9 +423,9 @@ const OrderForm = () => {
               <input
                 type="text"
                 name="district"
-                value={order.district}
+                value={district}
                 onChange={(e) =>
-                  setOrder({ ...order, district: e.target.value })
+                  dispatch(setOrderInput({ district: e.target.value }))
                 }
                 required
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
@@ -498,7 +445,7 @@ const OrderForm = () => {
               </label>
               <select
                 name="NotInsideOrOutsideOfDhaka"
-                value={order.notInsideOrOutsideOfDhaka}
+                value={notInsideOrOutsideOfDhaka}
                 onChange={handleLocationChange}
                 required
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
@@ -518,7 +465,7 @@ const OrderForm = () => {
               <h3 className="text-lg font-semibold mb-2">
                 These are the products you are buying:
               </h3>
-              {order.products.map((product, index) => (
+              {products.map((product) => (
                 <div
                   key={product.productId + "Order Product"}
                   className="w-full bg-white my-2 border border-gray-300 rounded-lg shadow-sm flex flex-col md:flex-row"
