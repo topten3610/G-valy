@@ -30,6 +30,13 @@ const {
 } = require("../controller/orders/createOrderController");
 const deleteProductController = require("../controller/product/deleteProduct");
 const orderAuth = require("../middleware/orderAuth");
+const subscribeController = require("../controller/notifications/subscribe");
+
+
+// for notification
+// Subscribe route
+router.post("/subscribe", subscribeController);
+
 
 
 router.post("/signup", userSignUpController);

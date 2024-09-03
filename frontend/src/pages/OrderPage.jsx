@@ -308,7 +308,7 @@ const OrderForm = () => {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div className="max-w-5xl mx-auto p-4 md:p-8 bg-white shadow-lg rounded-lg">
+    <div className="max-w-5xl mt-4 h-full  mx-auto p-4 md:p-8  bg-white shadow-lg rounded-lg">
       <h1 className="text-xl md:text-2xl font-semibold mb-4 md:mb-6">
         Place an Order
       </h1>
@@ -460,7 +460,7 @@ const OrderForm = () => {
           </div>
 
           {/* Right Section: Product Details */}
-          <div className="md:w-1/2 space-y-4">
+          <div className="md:w-1/2 space-y-4 mt-6 sm:mt-0">
             <div>
               <h3 className="text-lg font-semibold mb-2">
                 These are the products you are buying:

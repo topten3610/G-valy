@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import fetchCategoryWiseProduct from "../helpers/fetchCategoryWiseProduct";
 import displayINRCurrency from "../helpers/displayCurrency";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import addToCart from "../helpers/addToCart";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,17 +11,19 @@ import {
   fetchUserAddToCartCount,
   fetchUserCartData,
 } from "../store/cartsSlice";
+import OrderNow from "./OrderNowBtn/OrderNow";
 
 const VerticalCardProduct = ({ category, heading }) => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state?.user?.user);
+  const user = useSelector((state) => state.user.user);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const loadingList = new Array(13).fill(null);
+  const [showButtons, setShowButtons] = useState(false);
   const scrollElement = useRef();
   const [animateButton, setAnimateButton] = useState(null);
 
   const handleAddToCart = async (e, productId) => {
+    e.stopPropagation();
     await addToCart(e, user?._id, productId);
     dispatch(fetchUserCartData());
     dispatch(fetchUserAddToCartCount());
@@ -31,110 +33,160 @@ const VerticalCardProduct = ({ category, heading }) => {
     (async () => {
       setLoading(true);
       const categoryProduct = await fetchCategoryWiseProduct(category);
+      setData(categoryProduct?.data || []);
       setLoading(false);
-      setData(categoryProduct?.data);
     })();
   }, [category]);
 
+  useEffect(() => {
+    const checkOverflow = () => {
+      if (scrollElement.current) {
+        setShowButtons(
+          scrollElement.current.scrollWidth > scrollElement.current.clientWidth
+        );
+      }
+    };
+
+    checkOverflow();
+    window.addEventListener("resize", checkOverflow);
+
+    return () => window.removeEventListener("resize", checkOverflow);
+  }, [data]);
+
   const scrollRight = () => {
-    scrollElement.current.scrollLeft += 300;
+    scrollElement.current.scrollBy({
+      left: 300,
+      behavior: "smooth",
+    });
     triggerButtonAnimation("right");
   };
+
   const scrollLeft = () => {
-    scrollElement.current.scrollLeft -= 300;
+    scrollElement.current.scrollBy({
+      left: -300,
+      behavior: "smooth",
+    });
     triggerButtonAnimation("left");
   };
 
   const triggerButtonAnimation = (direction) => {
     setAnimateButton(direction);
-    setTimeout(() => setAnimateButton(null), 1000); // Reset animation state after 300ms
+    setTimeout(() => setAnimateButton(null), 300);
   };
 
+
+  
+  
+  if (data.length <= 0) {
+    return null
+  }
   return (
-    <div className="container mx-auto px-4 my-6 relative">
-      <h2 className="text-2xl font-semibold py-4">{heading}</h2>
-
-      <div
-        className="flex items-center gap-4 md:gap-6 overflow-y-hidden overflow-x-scroll scrollbar-none transition-all"
-        ref={scrollElement}
-      >
-        <button
-          className={`z-10 shadow-md rounded-full p-2 absolute bg-stone-300 text-slate-400 left-4 text-2xl hidden md:block transition-transform duration-300 ${
-            animateButton === "left" ? "animate-pulse" : ""
-          }`}
-          onClick={scrollLeft}
+    <div className="container  mx-auto px-1 sm:px-4 md:my-20 relative">
+      <div className="flex w-full items-center justify-between">
+        <h2 className="text-2xl text-black mb-6">{heading}</h2>
+        <Link
+          to={"/product-category?category=" + category}
+          className="cursor-pointer"
         >
-          <FaAngleLeft />
-        </button>
-        <button
-          className={`z-10 shadow-md rounded-full p-2 absolute bg-stone-300 text-slate-400 right-4 text-2xl hidden md:block transition-transform duration-300 ${
-            animateButton === "right" ? "animate-pulse" : ""
-          }`}
-          onClick={scrollRight}
-        >
-          <FaAngleRight />
-        </button>
+          <button className="relative border-2 border-[#FF5722] rounded px-4 py-2 text-[#FF5722] bg-white text-sm font-medium hover:bg-[#FF5722] hover:text-white transition duration-300 shadow-md">
+            See More
+          </button>
+        </Link>
+      </div>
 
-        {loading
-          ? loadingList.map((_, index) => (
-              <div
-                key={index}
-                className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-lg shadow-lg overflow-hidden"
-              >
-                <div className="bg-slate-200 h-48 p-4 flex justify-center items-center animate-pulse">
-                  <div className="w-full h-full bg-slate-300 animate-pulse"></div>
-                </div>
-                <div className="p-4 grid gap-4">
-                  <div className="h-6 bg-slate-200 animate-pulse rounded-full w-3/4"></div>
-                  <div className="h-4 bg-slate-200 animate-pulse rounded-full w-1/2"></div>
-                  <div className="flex gap-3">
-                    <div className="h-6 bg-slate-200 animate-pulse rounded-full w-1/3"></div>
-                    <div className="h-6 bg-slate-200 animate-pulse rounded-full w-1/3"></div>
+      <div className="relative md:px-20">
+        {showButtons && (
+          <>
+            <button
+              className={`hidden sm:block z-20 bg-gray-800 text-white rounded-full p-3 absolute top-1/2 transform -translate-y-1/2 left-4 shadow-lg hover:bg-gray-600 transition-colors duration-300 ${
+                animateButton === "left" ? "animate-pulse" : ""
+              }`}
+              onClick={scrollLeft}
+              aria-label="Scroll left"
+            >
+              <FaAngleLeft />
+            </button>
+            <button
+              className={`hidden sm:block z-20 bg-gray-800 text-white rounded-full p-3 absolute top-1/2 transform -translate-y-1/2 right-4 shadow-lg hover:bg-gray-600 transition-colors duration-300 ${
+                animateButton === "right" ? "animate-pulse" : ""
+              }`}
+              onClick={scrollRight}
+              aria-label="Scroll right"
+            >
+              <FaAngleRight />
+            </button>
+          </>
+        )}
+
+        <div
+          className="flex items-center gap-3 overflow-x-auto overflow-y-hidden scrollbar-none"
+          ref={scrollElement}
+        >
+          {loading
+            ? new Array(13).fill(null).map((_, index) => (
+                <div
+                  key={index}
+                  className="w-full min-w-[280px] md:min-w-[320px] bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 transform hover:scale-105"
+                >
+                  <div className="bg-gray-300 h-64 p-4 flex justify-center items-center animate-pulse">
+                    <div className="w-full h-full bg-gray-400 animate-pulse"></div>
                   </div>
-                  <div className="h-8 bg-slate-200 animate-pulse rounded-full w-1/2"></div>
+                  <div className="p-4 flex flex-col gap-4">
+                    <div className="h-6 bg-gray-300 animate-pulse rounded-full w-3/4"></div>
+                    <div className="h-4 bg-gray-300 animate-pulse rounded-full w-1/2"></div>
+                    <div className="flex gap-3">
+                      <div className="h-6 bg-gray-300 animate-pulse rounded-full w-1/3"></div>
+                      <div className="h-6 bg-gray-300 animate-pulse rounded-full w-1/3"></div>
+                    </div>
+                    <div className="h-8 bg-gray-300 animate-pulse rounded-full w-1/2"></div>
+                  </div>
                 </div>
-              </div>
-            ))
-          : data.map((product, index) => (
-              <Link
-                to={`/product/${product?._id}`}
-                className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105 border-[#E0E0E0]"
-                key={product?._id}
-              >
-                <div className="relative bg-gray-100 h-64 overflow-hidden">
-                  <img
-                    src={product?.productImage[0]}
-                    alt={product?.productName}
-                    className="object-cover h-full w-full transition-transform transform hover:scale-110"
-                  />
-                </div>
-                <div className="p-4 flex flex-col">
-                  <h2 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-1">
-                    {product?.productName}
-                  </h2>
-                  <p className="text-gray-500 capitalize mb-2">
-                    {product?.category}
-                  </p>
-                  <div className="flex gap-2 mb-2">
-                    <p className="text-red-600 font-semibold">
-                      {displayINRCurrency(product?.sellingPrice)}
+              ))
+            : data.map((product) => (
+                <Link
+                  to={`/product/${product._id}`}
+                  className="max-w-[25%] min-w-[280px] md:min-w-[320px] bg-white  overflow-hidden transition-transform duration-300 transform"
+                  key={product._id}
+                >
+                  <div className="relative bg-gray-100 h-64 overflow-hidden">
+                    <img
+                      src={product.productImage[0]}
+                      alt={product.productName}
+                      className="object-cover h-full w-full transition-transform duration-500 transform hover:scale-110"
+                    />
+                  </div>
+                  <div className="p-4 flex flex-col">
+                    <h2 className="text-lg font-semibold text-gray-800 mb-2 truncate">
+                      {product.productName}
+                    </h2>
+                    <p className="text-gray-500 capitalize">
+                      {product.category}
                     </p>
-                    {product?.price && (
-                      <p className="text-gray-500 line-through">
-                        {displayINRCurrency(product?.price)}
+                    <div className="flex gap-2 items-center text-sm">
+                      <p className="text-[#FF5722] font-bold ">
+                        {displayINRCurrency(product.sellingPrice)}
                       </p>
-                    )}
+                      {product.price && (
+                        <p className="text-gray-500 line-through">
+                          {displayINRCurrency(product.price)}
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex items-center mt-2 justify-between">
+                      <button
+                        className="border-2 border-[#FF5722] text-[#FF5722] py-2 px-4 rounded-full text-sm font-semibold transition-transform duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center"
+                        onClick={(e) => handleAddToCart(e, product._id)}
+                        aria-label={`Add ${product.productName} to cart`}
+                      >
+                        <FaShoppingCart className="inline-block mr-2" />
+                        Add to Cart
+                      </button>
+                      <OrderNow productId={product._id} />
+                    </div>
                   </div>
-                  <button
-                    className="bg-[#FF5722] hover:bg-[#E64A19] text-white py-2 px-4 rounded-full text-sm font-semibold transition-transform transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center"
-                    onClick={(e) => handleAddToCart(e, product?._id)}
-                  >
-                    <FaShoppingCart className="inline-block mr-2" />
-                    Add to Cart
-                  </button>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
+        </div>
       </div>
     </div>
   );

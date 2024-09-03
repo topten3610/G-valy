@@ -60,7 +60,7 @@ const SignUp = () => {
   return (
     <section
       id="signup"
-      className="flex items-center justify-center min-h-screen bg-gray-100"
+      className="flex items-center justify-center min-h-full pt-10 bg-gray-100"
     >
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
         <div className="flex justify-center mb-6">

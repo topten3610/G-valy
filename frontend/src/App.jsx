@@ -13,10 +13,13 @@ import { fetchUserDetails } from "./store/userSlice";
 import { fetchUserAddToCartCount, fetchUserCartData } from "./store/cartsSlice";
 import {  fetchUserCartDataForOrder } from "./store/orderSlice";
 
+// import TopNavBar from "./components/TopNavBar/TopNavBar";
+
 function App() {
   const dispatch = useDispatch();
   const { user, loading } = useSelector((state) => state.user);
 
+  
   useEffect(() => {
     /** Fetch user details */
     const fetchData = async () => {
@@ -29,6 +32,8 @@ function App() {
     fetchData();
   }, [dispatch, user?._id]);
 
+
+
   if (loading) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
@@ -39,9 +44,10 @@ function App() {
 
   return (
     <>
-      <ToastContainer position="top-center" />
-      <Header />
       <ScrollToTop />
+      <ToastContainer position="top-center" />
+      {/* <TopNavBar /> */}
+      <Header />
       <main className="min-h-[calc(100vh-120px)] pt-16">
         <Outlet />
       </main>

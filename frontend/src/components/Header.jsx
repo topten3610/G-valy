@@ -1,4 +1,4 @@
-import {  useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GrSearch } from "react-icons/gr";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
@@ -8,60 +8,31 @@ import SummaryApi from "../common";
 import { toast } from "react-toastify";
 import { setUserDetails } from "../store/userSlice";
 import ROLE from "../common/role";
-
 import ConfirmLogoutModal from "./ConfirmLogoutModal";
+
 
 const Header = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state?.user?.user);
-  const { cartsData, cartsCount } = useSelector((state) => state.carts);
+  const user = useSelector((state) => state.user.user);
+  const { cartsCount } = useSelector((state) => state.carts);
 
-  const [menuDisplay, setMenuDisplay] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+  const [animate, setAnimate] = useState(false);
 
   const navigate = useNavigate();
-  const searchInput = useLocation();
-  const URLSearch = new URLSearchParams(searchInput?.search);
-  const searchQuery = URLSearch.getAll("q");
-  const [search, setSearch] = useState(searchQuery);
+  const location = useLocation();
+  const URLSearch = new URLSearchParams(location.search);
+  const currentSearchQuery = URLSearch.get("q") || "";
 
-  // Refs for user icon and menu
   const userIconRef = useRef(null);
   const menuRef = useRef(null);
 
-  const handleLogout = async () => {
-    const fetchData = await fetch(SummaryApi.logout_user.url, {
-      method: SummaryApi.logout_user.method,
-      credentials: "include",
-    });
-
-    const data = await fetchData.json();
-
-    if (data.success) {
-      dispatch(setUserDetails(null));
-      navigate("/");
-    }
-
-    if (data.error) {
-      toast.error(data.message);
-    }
-
-    setLogoutModalOpen(false); // Close the modal after logout
-  };
-
-  const handleSearch = (e) => {
-    const { value } = e.target;
-    setSearch(value);
-
-    if (value) {
-      navigate(`/search?q=${value}`);
-    } else {
-      navigate("/search");
-    }
-  };
-
-  const [animate, setAnimate] = useState(false);
+  useEffect(() => {
+    setSearchQuery(currentSearchQuery);
+  }, [currentSearchQuery]);
 
   useEffect(() => {
     if (cartsCount > 0) {
@@ -79,7 +50,7 @@ const Header = () => {
         menuRef.current &&
         !menuRef.current.contains(event.target)
       ) {
-        setMenuDisplay(false);
+        setMenuVisible(false);
       }
     };
 
@@ -89,25 +60,63 @@ const Header = () => {
     };
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(SummaryApi.logout_user.url, {
+        method: SummaryApi.logout_user.method,
+        credentials: "include",
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        dispatch(setUserDetails(null));
+        navigate("/");
+      } else {
+        toast.error(data.message || "Logout failed.");
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred while logging out.",error);
+    } finally {
+      setLogoutModalOpen(false);
+    }
+  };
+
+  const executeSearch = () => {
+    if (searchQuery) {
+      navigate(`/search?q=${searchQuery}`);
+    } else {
+      navigate("/search");
+    }
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
   return (
-    <header className="h-16 shadow-md bg-white fixed w-full z-40">
+    <header className="h-16 shadow bg-white fixed w-full z-40">
+      
       <div className="h-full container mx-auto flex items-center px-4 justify-between">
-        <div className="flex items-center">
-          <Link to={"/"}>
-            <h1 className="text-lg font-bold">RmEcommerce</h1>
-          </Link>
-        </div>
+        <Link
+          to="/"
+          className="text-lg font-bold text-[#FF5722] hover:text-orange-600 transition-colors"
+        >
+          Rm
+        </Link>
 
         {/* Desktop Search Bar */}
-        <div className="hidden lg:flex items-center w-full justify-between max-w-lg border rounded-full bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <div className="hidden lg:flex items-center w-full justify-between max-w-lg border rounded-md bg-white  transition-shadow duration-300">
           <input
             type="text"
             placeholder="Search products..."
-            className="w-full py-2 px-4 rounded-full outline-none border-none focus:ring-2 focus:ring-[#FF5722] transition-all duration-300"
-            onChange={handleSearch}
-            value={search}
+            className="w-full py-2 px-4 rounded-md outline-none border-none focus:ring-2 focus:ring-[#FF5722] transition-all duration-300"
+            onChange={handleSearchChange}
+            value={searchQuery}
           />
-          <button className="bg-[#FF5722] flex items-center justify-center rounded-full p-2 ml-2 transition-transform duration-300 hover:scale-105 active:scale-95">
+          <button
+            className="bg-[#FF5722] flex items-center justify-center rounded-full p-2 ml-2 transition-transform duration-300 hover:scale-105 active:scale-95"
+            onClick={executeSearch}
+          >
             <GrSearch className="text-white text-xl" />
           </button>
         </div>
@@ -115,7 +124,8 @@ const Header = () => {
         {/* Mobile Search Bar Toggle */}
         <button
           className="lg:hidden text-2xl"
-          onClick={() => setSearchOpen(!searchOpen)}
+          onClick={() => setSearchOpen((prev) => !prev)}
+          aria-label="Toggle search bar"
         >
           <GrSearch />
         </button>
@@ -127,16 +137,27 @@ const Header = () => {
               type="text"
               placeholder="Search products..."
               className="w-full border p-2 rounded"
-              onChange={handleSearch}
-              value={search}
+              onChange={handleSearchChange}
+              value={searchQuery}
             />
+            <button
+              className="bg-[#FF5722] w-full mt-2 py-2 rounded text-white"
+              onClick={executeSearch}
+            >
+              <GrSearch className="inline-block text-xl" />
+              <span className="ml-2">Search</span>
+            </button>
           </div>
         )}
 
         <div className="flex items-center gap-7">
-          <Link to={"/cart"} className="text-2xl text-[#FF5722] relative">
+          <Link
+            to="/cart"
+            className="text-2xl text-[#FF5722] relative"
+            aria-label="View cart"
+          >
             <FaShoppingCart />
-            {cartsCount >= 0 && (
+            {cartsCount > 0 && (
               <div
                 className={`bg-[#FF5722] text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3 ${
                   animate ? "badge-animate" : ""
@@ -151,7 +172,8 @@ const Header = () => {
             <div className="relative" ref={userIconRef}>
               <div
                 className="text-3xl cursor-pointer flex justify-center items-center"
-                onClick={() => setMenuDisplay((prev) => !prev)}
+                onClick={() => setMenuVisible((prev) => !prev)}
+                aria-label="User menu"
               >
                 {user?.profilePic ? (
                   <img
@@ -164,9 +186,9 @@ const Header = () => {
                 )}
               </div>
 
-              {menuDisplay && (
+              {menuVisible && (
                 <div
-                  className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 z-50"
+                  className="absolute right-0 mt-2 w-60 bg-white shadow-lg rounded-lg py-2 z-50"
                   ref={menuRef}
                 >
                   <nav className="flex flex-col text-sm">
@@ -175,8 +197,8 @@ const Header = () => {
                       <div
                         className="flex flex-col items-center cursor-pointer"
                         onClick={() => {
-                          navigate(`/profile`);
-                          setMenuDisplay((prev) => !prev);
+                          navigate("/profile");
+                          setMenuVisible(false);
                         }}
                       >
                         <div className="relative w-16 h-16">
@@ -203,9 +225,9 @@ const Header = () => {
 
                     {user?.role === ROLE.ADMIN && (
                       <Link
-                        to={"/admin-panel/all-products"}
+                        to="/admin-panel/all-products"
                         className="whitespace-nowrap block hover:bg-gray-100 px-4 py-2"
-                        onClick={() => setMenuDisplay(false)}
+                        onClick={() => setMenuVisible(false)}
                       >
                         Admin Panel
                       </Link>
@@ -213,7 +235,7 @@ const Header = () => {
                     <button
                       onClick={() => {
                         setLogoutModalOpen(true);
-                        setMenuDisplay((prev) => !prev);
+                        setMenuVisible(false);
                       }}
                       className="whitespace-nowrap block text-left hover:bg-gray-100 px-4 py-2"
                     >
@@ -224,12 +246,25 @@ const Header = () => {
               )}
             </div>
           ) : (
-            <Link
-              to={"/login"}
-              className="px-3 py-1 rounded-full text-white bg-[#FF5722] hover:bg-red-700"
-            >
-              Login
-            </Link>
+            <>
+              <div>
+                <Link
+                  to="/login"
+                  className="px-3 py-1 rounded-full duration-300  text-[#FF5722] hover:text-[#565655] font-bold "
+                  aria-label="Login"
+                >
+                  Login
+                </Link>{" "}
+                |
+                <Link
+                  to="/sign-up"
+                  className="px-3 py-1 rounded-full  text-[#FF5722] duration-300 hover:text-[#565655] font-bold"
+                  aria-label="Login"
+                >
+                  SignUp
+                </Link>
+              </div>
+            </>
           )}
         </div>
       </div>

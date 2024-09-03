@@ -2,20 +2,25 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import ROLE from "../common/role";
+import ROLE from "../../common/role";
+import registerServiceWorker from "../../helpers/sendNotification";
+
 
 const AdminPanel = () => {
   const user = useSelector((state) => state?.user?.user);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user?.role !== ROLE.ADMIN) {
+    if (user?.role === ROLE.ADMIN) {
+      registerServiceWorker()
+    } else {
       navigate("/");
     }
   }, [user?._id]);
 
   return (
     <div className="min-h-[calc(100vh-120px)] flex flex-col md:flex-row">
+     
       <aside className="bg-white min-h-full w-full md:max-w-60 customShadow">
         <div className="h-32 flex justify-center items-center flex-col">
           <div className="text-5xl cursor-pointer relative flex justify-center">

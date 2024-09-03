@@ -6,7 +6,7 @@ const displayINRCurrency = (num) => {
     currencyDisplay: "code", // Ensures 'BDT' is not shown as a symbol
   });
 
-  return `TK. ${formatter.format(num).replace("BDT", "").trim()}`;
+  return `Tk. ${formatter.format(num).replace("BDT", "").trim()}`;
 };
 
 export default displayINRCurrency;

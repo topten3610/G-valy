@@ -5,7 +5,7 @@ import AdminEditProduct from "./AdminEditProduct";
 import displayINRCurrency from "../helpers/displayCurrency";
 import SummaryApi from "../common";
 
-const AdminProductCard = ({ data, fetchdata }) => {
+const AdminProductCard = ({ data, fetchData }) => {
   const [editProduct, setEditProduct] = useState(false);
   const handleDelete = async (productId) => {
     try {
@@ -17,8 +17,8 @@ const AdminProductCard = ({ data, fetchdata }) => {
         }
       );
       if (response.ok) {
-        // Assuming fetchdata is a function to refresh the data
-        fetchdata();
+        // Assuming fetchData is a function to refresh the data
+        fetchData();
       } else {
         console.error("Failed to delete the product");
       }
@@ -66,7 +66,7 @@ const AdminProductCard = ({ data, fetchdata }) => {
         <AdminEditProduct
           productData={data}
           onClose={() => setEditProduct(false)}
-          fetchdata={fetchdata}
+          fetchData={fetchData}
         />
       )}
     </div>

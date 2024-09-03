@@ -1,5 +1,6 @@
 const cartModel = require("../../models/cartProduct");
 const orderModel = require("../../models/orders.model");
+const adminNotification = require("../../helpers/adminNotification");
 
 // Create a new order
 const createOrderController = async (req, res) => {
@@ -32,15 +33,12 @@ const createOrderController = async (req, res) => {
     // Save the order to the database
     const savedOrder = await newOrder.save();
 
-    // Assuming req.userId is available and contains the user's ID
-
-   console.log(req.userId);
     if (req.userId) {
       // Delete all items from the cart for this user
       await cartModel.findOneAndDelete({ userId: req.userId });
     }
 
-    // await cartModel.findOneAndDelete({ userId: req.userId });
+    await adminNotification(savedOrder);
 
     res.status(201).json({
       message: "Order created successfully",

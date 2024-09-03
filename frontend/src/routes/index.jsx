@@ -2,18 +2,18 @@ import { createBrowserRouter } from 'react-router-dom'
 import App from '../App'
 import Home from '../pages/Home'
 import Login from '../pages/Login'
-import ForgotPassowrd from '../pages/ForgotPassowrd'
 import SignUp from '../pages/SignUp'
-import AdminPanel from '../pages/AdminPanel'
-import AllUsers from '../pages/AllUsers'
-import AllProducts from '../pages/AllProducts'
+import AdminPanel from '../pages/Admin/AdminPanel'
+import AllUsers from '../pages/Admin/AllUsers'
+import AllProducts from '../pages/Admin/AllProducts'
 import CategoryProduct from '../pages/CategoryProduct'
 import ProductDetails from '../pages/ProductDetails'
 import Cart from '../pages/Cart'
 import SearchProduct from '../pages/SearchProduct'
 import OrderPage from '../pages/OrderPage'
-import OrderManagement from '../pages/AllOrders'
+import OrderManagement from '../pages/Admin/AllOrders'
 import UserProfile from '../pages/UserProfile/UserProfile'
+import ForgotPassword from '../pages/ForgotPassword'
 
 const router = createBrowserRouter([
   {
@@ -34,7 +34,7 @@ const router = createBrowserRouter([
       },
       {
         path: "forgot-password",
-        element: <ForgotPassowrd />,
+        element: <ForgotPassword />,
       },
       {
         path: "sign-up",

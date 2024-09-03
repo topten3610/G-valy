@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import SummaryApi from "../common";
 import VerticalCard from "../components/VerticalCard";
 
@@ -31,12 +31,17 @@ const SearchProduct = () => {
         </div>
       )}
 
-      <div className="mb-6 text-center">
-        <p className="text-2xl font-bold mb-2">Search Results</p>
-        <p className="text-lg font-medium text-gray-600">
-          {data.length} {data.length === 1 ? "result" : "results"} found
-        </p>
-      </div>
+      {data.length > 0 && (
+        <div className="mb-6 text-center">
+          <p className="text-2xl font-bold mb-2">Search Results</p>
+          <p className="text-lg font-medium text-gray-600">
+            {data.length} {data.length === 1 ? "result" : "results"} found
+          </p>
+          <Link to="/" className="text-blue-500 hover:underline text-lg">
+            Go back to the homepage
+          </Link>
+        </div>
+      )}
 
       {data.length === 0 && !loading && (
         <div className="bg-white shadow-md rounded-lg p-6 text-center">

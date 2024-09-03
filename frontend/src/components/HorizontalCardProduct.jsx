@@ -5,12 +5,12 @@ import displayINRCurrency from "../helpers/displayCurrency";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import addToCart from "../helpers/addToCart";
-
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchUserAddToCartCount,
   fetchUserCartData,
 } from "../store/cartsSlice";
+import { FaShoppingCart } from "react-icons/fa";
 
 const HorizontalCardProduct = ({ category, heading }) => {
   const dispatch = useDispatch();
@@ -18,11 +18,12 @@ const HorizontalCardProduct = ({ category, heading }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const loadingList = new Array(13).fill(null);
-
-  const [animateButton, setAnimateButton] = useState(null); // New state for animation
-  const scrollElement = useRef();
+  const [showButtons, setShowButtons] = useState(false);
+  const [animateButton, setAnimateButton] = useState(null);
+  const scrollElement = useRef(null);
 
   const handleAddToCart = async (e, id) => {
+    e.preventDefault();
     await addToCart(e, user?._id, id);
     dispatch(fetchUserCartData());
     dispatch(fetchUserAddToCartCount());
@@ -30,110 +31,167 @@ const HorizontalCardProduct = ({ category, heading }) => {
 
   const fetchData = async () => {
     setLoading(true);
-    const categoryProduct = await fetchCategoryWiseProduct(category);
-    setLoading(false);
-
-    setData(categoryProduct?.data);
+    try {
+      const categoryProduct = await fetchCategoryWiseProduct(category);
+      setData(categoryProduct?.data || []);
+    } catch (error) {
+      console.error("Failed to fetch data", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [category]);
+
+  useEffect(() => {
+    const checkOverflow = () => {
+      if (scrollElement.current) {
+        setShowButtons(
+          scrollElement.current.scrollWidth > scrollElement.current.clientWidth
+        );
+      }
+    };
+
+    checkOverflow();
+    window.addEventListener("resize", checkOverflow);
+
+    return () => window.removeEventListener("resize", checkOverflow);
+  }, [data]);
 
   const scrollRight = () => {
-    scrollElement.current.scrollLeft += 300;
-    triggerButtonAnimation("right");
+    if (scrollElement.current) {
+      scrollElement.current.scrollBy({
+        left: 300,
+        behavior: "smooth",
+      });
+      triggerButtonAnimation("right");
+    }
   };
+
   const scrollLeft = () => {
-    scrollElement.current.scrollLeft -= 300;
-    triggerButtonAnimation("left");
+    if (scrollElement.current) {
+      scrollElement.current.scrollBy({
+        left: -300,
+        behavior: "smooth",
+      });
+      triggerButtonAnimation("left");
+    }
   };
 
   const triggerButtonAnimation = (direction) => {
     setAnimateButton(direction);
-    setTimeout(() => setAnimateButton(null), 300); // Reset animation state after 300ms
+    setTimeout(() => setAnimateButton(null), 300);
   };
 
+    
+
+  if (data.length <= 0) {
+    return null;
+  }
+  
   return (
-    <div className="container mx-auto px-4 my-6 relative">
-      <h2 className="text-2xl font-semibold py-4">{heading}</h2>
-
-      <div
-        className="flex items-center gap-4 md:gap-6 overflow-y-hidden overflow-scroll scrollbar-none transition-all"
-        ref={scrollElement}
-      >
-        <button
-          className={` z-10 shadow-md rounded-full p-2 absolute bg-stone-300 text-slate-400 left-4 text-2xl hidden md:block transition-transform duration-300 ${
-            animateButton === "left" ? "animate-pulse" : ""
-          }`}
-          onClick={scrollLeft}
+    <div className="container mx-auto px-1 sm:px-4 my-6 relative">
+      <div className="flex w-full items-center justify-between">
+        <h2 className="text-2xl text-black mb-6">{heading}</h2>
+        <Link
+          to={"/product-category?category=" + category}
+          className="cursor-pointer"
         >
-          <FaAngleLeft />
-        </button>
-        <button
-          className={` z-10 shadow-md rounded-full p-2 absolute bg-stone-300 text-slate-400 right-4 text-2xl hidden md:block transition-transform duration-300 ${
-            animateButton === "right" ? "animate-pulse" : ""
-          }`}
-          onClick={scrollRight}
-        >
-          <FaAngleRight />
-        </button>
+          <button className="relative border-2 border-[#FF5722] rounded px-4 py-2 text-[#FF5722] bg-white text-sm font-medium hover:bg-[#FF5722] hover:text-white transition duration-300 shadow-md">
+            See More
+          </button>
+        </Link>
+      </div>
 
-        {loading
-          ? loadingList.map((product, index) => (
-              <div
-                key={index}
-                className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 bg-white rounded-sm shadow flex"
-              >
-                <div className="bg-slate-200 h-full p-4 min-w-[120px] md:min-w-[145px] animate-pulse" />
-                <div className="p-4 grid w-full gap-2">
-                  <h2 className="font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black bg-slate-200 animate-pulse p-1 rounded-full" />
-                  <p className="capitalize text-slate-500 p-1 bg-slate-200 animate-pulse rounded-full" />
-                  <div className="flex gap-3 w-full">
-                    <p className="text-red-600 font-medium p-1 bg-slate-200 w-full animate-pulse rounded-full" />
-                    <p className="text-slate-500 line-through p-1 bg-slate-200 w-full animate-pulse rounded-full" />
+      <div className="relative sm:px-10">
+        {showButtons && (
+          <>
+            <button
+              className={`hidden sm:block z-20 bg-gray-800 text-white rounded-full p-3 absolute top-1/2 transform -translate-y-1/2 left-4 shadow-lg hover:bg-gray-600 transition-colors duration-300 ${
+                animateButton === "left" ? "animate-pulse" : ""
+              }`}
+              onClick={scrollLeft}
+              aria-label="Scroll left"
+            >
+              <FaAngleLeft />
+            </button>
+            <button
+              className={`hidden sm:block z-20 bg-gray-800 text-white rounded-full p-3 absolute top-1/2 transform -translate-y-1/2 right-4 shadow-lg hover:bg-gray-600 transition-colors duration-300 ${
+                animateButton === "right" ? "animate-pulse" : ""
+              }`}
+              onClick={scrollRight}
+              aria-label="Scroll right"
+            >
+              <FaAngleRight />
+            </button>
+          </>
+        )}
+
+        <div
+          className="flex items-center  gap-1 overflow-x-auto overflow-y-hidden scrollbar-none"
+          ref={scrollElement}
+        >
+          {loading
+            ? loadingList.map((_, index) => (
+                <div
+                  key={index}
+                  className="flex w-full min-w-[280px] md:min-w-[320px] h-36 bg-white rounded-lg shadow-md items-center p-4"
+                >
+                  <div className="bg-slate-200 h-full w-1/3 md:w-1/4 flex items-center justify-center p-4 animate-pulse" />
+                  <div className="flex-1 p-4 flex flex-col justify-between">
+                    <div className="h-6 bg-slate-200 rounded-full animate-pulse mb-2" />
+                    <div className="h-4 bg-slate-200 rounded-full animate-pulse mb-2" />
+                    <div className="flex gap-3 mb-2">
+                      <div className="h-6 bg-slate-200 w-1/2 rounded-full animate-pulse" />
+                      <div className="h-6 bg-slate-200 w-1/2 rounded-full animate-pulse" />
+                    </div>
+                    <div className="h-8 bg-slate-200 rounded-full animate-pulse" />
                   </div>
-                  <button className="text-sm text-white px-3 py-0.5 rounded-full w-full bg-slate-200 animate-pulse" />
                 </div>
-              </div>
-            ))
-          : data.map((product, index) => (
-              <Link
-                key={index}
-                to={`product/${product?._id}`}
-                className=" min-w-[280px] md:min-w-[320px]  h-36 bg-white  shadow flex items-center transform hover:scale-105 transition-transform duration-300"
-              >
-                <div className="bg-slate-200 h-full p-4 min-w-[120px] md:min-w-[145px] flex items-center justify-center">
-                  <img
-                    src={product.productImage[0]}
-                    alt={product.productName}
-                    className="object-contain h-full w-full transform hover:scale-110 transition-transform duration-300"
-                  />
-                </div>
-                <div className="p-4 flex flex-col justify-between w-full">
-                  <h2 className="font-medium text-base md:text-lg text-black overflow-hidden text-ellipsis whitespace-nowrap">
-                    {product?.productName}
-                  </h2>
-                  <p className="capitalize text-slate-500 text-sm md:text-base overflow-hidden text-ellipsis whitespace-nowrap">
-                    {product?.category}
-                  </p>
-                  <div className="flex gap-3 items-center text-sm md:text-base">
-                    <p className="text-[#E64A19] font-medium">
-                      {displayINRCurrency(product?.sellingPrice)}
-                    </p>
-                    <p className="text-slate-500 line-through">
-                      {displayINRCurrency(product?.price)}
-                    </p>
+              ))
+            : data.map((product) => (
+                <Link
+                  key={product?._id}
+                  to={`/product/${product?._id}`}
+                  className="flex max-w-[50%] min-w-[300px] md:min-w-[300px] h-36 bg-white rounded-lg flex-row transform hover:scale-105 transition-transform duration-300"
+                >
+                  <div className="relative bg-gray-100 overflow-hidden">
+                    <img
+                      src={product.productImage[0]}
+                      alt={product.productName}
+                      className="object-cover h-full w-full transition-transform duration-400 transform hover:scale-110"
+                    />
                   </div>
-                  <button
-                    className="text-sm  bg-[#FF5722] hover:bg-[#d84d2f] text-white px-3 py-1 rounded-full transition-colors duration-300"
-                    onClick={(e) => handleAddToCart(e, product?._id)}
-                  >
-                    Add to Cart
-                  </button>
-                </div>
-              </Link>
-            ))}
+                  <div className="p-2 flex flex-col justify-between">
+                    <h2 className="font-medium text-base text-black truncate whitespace-nowrap">
+                      {product?.productName}
+                    </h2>
+                    <p className="capitalize text-slate-500 text-sm truncate whitespace-nowrap">
+                      {product?.category}
+                    </p>
+                    <div className="flex gap-1 items-center text-xs md:text-sm">
+                      <p className="text-[#FF5722] font-bold">
+                        {displayINRCurrency(product?.sellingPrice)}
+                      </p>
+                      {product?.price && (
+                        <p className="text-slate-500 line-through">
+                          {displayINRCurrency(product?.price)}
+                        </p>
+                      )}
+                    </div>
+                    <button
+                      className="text-sm border-2 border-[#FF5722] text-[#FF5722]   px-3 py-1 rounded-full transition-colors duration-300 flex items-center justify-center"
+                      onClick={(e) => handleAddToCart(e, product?._id)}
+                    >
+                      <FaShoppingCart className="inline-block mr-2" />
+                      Add to Cart
+                    </button>
+                  </div>
+                </Link>
+              ))}
+        </div>
       </div>
     </div>
   );

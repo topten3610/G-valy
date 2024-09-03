@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import UploadProduct from "../components/UploadProduct";
-import SummaryApi from "../common";
-import AdminProductCard from "../components/AdminProductCard";
+import UploadProduct from "../../components/UploadProduct";
+import SummaryApi from "../../common";
+import AdminProductCard from "../../components/AdminProductCard";
 
 const AllProducts = () => {
   const [openUploadProduct, setOpenUploadProduct] = useState(false);
@@ -39,13 +39,13 @@ const AllProducts = () => {
             <AdminProductCard
               data={product}
               key={index + "allProduct"}
-              fetchdata={fetchAllProduct}
+              fetchData={fetchAllProduct}
             />
           );
         })}
       </div>
 
-      {/**upload prouct component */}
+      {/**upload product component */}
       {openUploadProduct && (
         <UploadProduct
           onClose={() => setOpenUploadProduct(false)}

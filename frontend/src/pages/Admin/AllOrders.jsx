@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaEdit, FaTrashAlt, FaInfoCircle } from "react-icons/fa";
-import SummaryApi from "../common";
-import displayINRCurrency from "../helpers/displayCurrency";
-import OrderDetailsModal from "./OrderDetailsModal";
+import SummaryApi from "../../common";
+import displayINRCurrency from "../../helpers/displayCurrency";
+import OrderDetailsModal from "../OrderDetailsModal";
 
 const OrderManagement = () => {
   const [orders, setOrders] = useState([]);

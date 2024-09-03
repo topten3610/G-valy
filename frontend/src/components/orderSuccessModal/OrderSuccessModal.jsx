@@ -1,6 +1,4 @@
 /* eslint-disable react/prop-types */
-// SuccessModal.js
-import React from "react";
 import { motion } from "framer-motion";
 import { MdCheckCircle } from "react-icons/md";
 import { IoClose } from "react-icons/io5";

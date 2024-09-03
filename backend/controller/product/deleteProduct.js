@@ -34,10 +34,8 @@ const deleteProductController = async (req, res) => {
       { $pull: { items: { productId: id } } }
     );
 
-    // Successfully deleted the product
     res.status(200).json({ message: "Product deleted successfully" });
   } catch (error) {
-    // Log the error for debugging purposes
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }

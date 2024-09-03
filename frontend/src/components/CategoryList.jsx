@@ -20,9 +20,11 @@ const CategoryList = () => {
     fetchCategoryProduct();
   }, []);
 
+  console.log(categoryProduct.category);
+
   return (
     <div className="container mx-auto p-4">
-      <div className="flex items-center gap-4 justify-between overflow-scroll scrollbar-none ">
+      <div className="flex items-center gap-4  overflow-scroll scrollbar-none ">
         {loading
           ? categoryLoading.map((el, index) => {
               return (
@@ -43,7 +45,7 @@ const CategoryList = () => {
                     <img
                       src={product?.productImage[0]}
                       alt={product?.category}
-                      className="h-full object-scale-down mix-blend-multiply hover:scale-125 transition-all"
+                      className="h-full  mix-blend-multiply hover:scale-125 transition-all"
                     />
                   </div>
                   <p className="text-center text-sm md:text-base capitalize">

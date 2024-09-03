@@ -139,7 +139,7 @@ const Cart = () => {
   );
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto sm:p-4">
       {loading && (
         <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
           <div className="border-t-4 border-blue-500 border-solid rounded-full w-12 h-12 animate-spin"></div>
@@ -172,52 +172,55 @@ const Cart = () => {
       )}
 
       <div
-        className={`flex flex-col lg:flex-row gap-10 lg:justify-between p-4 ${
+        className={`flex flex-col lg:flex-row gap-10 lg:justify-between sm:p-4 ${
           cartsData?.length === 0 ? "hidden" : ""
         }`}
       >
         {/* View product */}
-        <div className="w-full max-w-3xl">
+        <div className="w-full max-w-3xl mx-auto sm:px-4">
           {cartsData?.map((product, index) => (
             <div
               key={product?._id + index}
-              className="w-full bg-white h-32 my-2 border border-slate-300 rounded grid grid-cols-[128px,1fr]"
+              className="w-full bg-white h-auto my-3 border border-gray-200 rounded-lg shadow-sm grid grid-cols-1 md:grid-cols-[128px,1fr] gap-4 p-4"
             >
-              <div className="w-32 h-32 bg-slate-200">
-                <img
-                  src={product?.productId?.productImage[0]}
-                  alt=""
-                  className="w-full h-full object-scale-down mix-blend-multiply"
-                />
-              </div>
-              <div className="px-4 py-2 relative">
+              <Link to={`/product/${product?.productId?._id}`}>
+                <div className="w-full md:w-32 h-32 bg-gray-100 rounded-lg overflow-hidden">
+                  <img
+                    src={product?.productId?.productImage[0]}
+                    alt={product?.productId?.productName || "Product image"}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </Link>
+              <div className="relative flex flex-col justify-between">
                 {/* Delete product */}
-                <div
-                  className="absolute right-0 text-[#FF5722] rounded-full p-2 hover:bg-[#FF5722] hover:text-white cursor-pointer"
+                <button
+                  className="absolute top-2 right-2 text-[#FF5722] hover:bg-[#FF5722] hover:text-white rounded-full p-2"
                   onClick={() => deleteCartProduct(product?._id)}
                 >
                   <MdDelete />
-                </div>
-
-                <h2 className="text-lg lg:text-xl text-ellipsis line-clamp-1">
-                  {product?.productId?.productName}
-                </h2>
-                <p className="capitalize text-slate-500">
+                </button>
+                <Link to={`/product/${product?.productId?._id}`}>
+                  <h2 className="text-lg font-semibold text-gray-900 truncate">
+                    {product?.productId?.productName}
+                  </h2>
+                </Link>
+                <p className="capitalize text-gray-600 mb-2">
                   {product?.productId?.category}
                 </p>
-                <div className="flex items-center justify-between">
-                  <p className="text-red-600 font-medium text-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-orange-600 font-medium text-lg">
                     {displayINRCurrency(product?.productId?.sellingPrice)}
                   </p>
-                  <p className="text-slate-600 font-semibold text-lg">
+                  <p className="text-gray-700 font-semibold text-lg">
                     {displayINRCurrency(
                       product?.productId?.sellingPrice * product?.quantity
                     )}
                   </p>
                 </div>
-                <div className="flex items-center gap-3 mt-1">
+                <div className="flex items-center gap-2">
                   <button
-                    className="border border-red-600 text-red-600 hover:bg-red-600 hover:text-white w-6 h-6 flex justify-center items-center rounded"
+                    className="border border-red-600 text-red-600 hover:bg-red-600 hover:text-white w-8 h-8 flex justify-center items-center rounded-full text-xl"
                     onClick={() =>
                       updateCartQuantity(
                         product?.productId._id,
@@ -228,9 +231,11 @@ const Cart = () => {
                   >
                     -
                   </button>
-                  <span>{product?.quantity}</span>
+                  <span className="text-lg font-semibold">
+                    {product?.quantity}
+                  </span>
                   <button
-                    className="border border-red-600 text-red-600 hover:bg-red-600 hover:text-white w-6 h-6 flex justify-center items-center rounded"
+                    className="border border-red-600 text-red-600 hover:bg-red-600 hover:text-white w-8 h-8 flex justify-center items-center rounded-full text-xl"
                     onClick={() =>
                       updateCartQuantity(
                         product?.productId._id,
@@ -248,11 +253,11 @@ const Cart = () => {
         </div>
 
         {/* Summary */}
-        <div className="mt-5 lg:mt-0 w-full max-w-sm mx-auto">
+        <div className="mt-5 lg:mt-0 w-full sm:max-w-sm mx-auto">
           {loading ? (
             <div className="h-36 bg-slate-200 border border-slate-300 animate-pulse rounded-lg shadow-md"></div>
           ) : (
-            <div className="bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-lg  border border-gray-200 overflow-hidden">
               <h2 className="text-lg font-semibold bg-[#FF5722] text-white px-4 py-3 sm:px-6 sm:py-4">
                 Summary
               </h2>

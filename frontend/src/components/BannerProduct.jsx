@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import banner from "../assest/banner/banner1.png";
 import image1 from "../assest/banner/img1.webp";
 import image2 from "../assest/banner/img2.webp";
 import image3 from "../assest/banner/img3.jpg";
@@ -16,7 +17,7 @@ import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 const BannerProduct = () => {
   const [currentImage, setCurrentImage] = useState(0);
 
-  const desktopImages = [image1, image2, image3, image4, image5];
+  const desktopImages = [banner, image2, image3, image4, image5];
   const mobileImages = [
     image1Mobile,
     image2Mobile,
@@ -41,9 +42,43 @@ const BannerProduct = () => {
   }, [currentImage]);
 
   return (
-    <div className="relative overflow-hidden rounded-lg">
+    <div className="relative overflow-hidden rounded-lg shadow-lg">
       {/* Desktop and Tablet Version */}
-      <div className="hidden md:block relative w-full h-72">
+      <div className="hidden md:block relative w-full h-[400px] lg:h-[400px] xl:h-[400px]">
+        <div className="absolute inset-0 flex items-center justify-between px-6 lg:px-8">
+          <button
+            onClick={prevImage}
+            className=" z-10 p-3 lg:p-4 rounded-full shadow-xl hover:bg-gray-100 transition-transform transform hover:scale-110"
+            aria-label="Previous Image"
+          >
+            <FaAngleLeft className="  text-3xl lg:text-4xl text-gray-800" />
+          </button>
+          <button
+            onClick={nextImage}
+            className=" z-10 p-3 lg:p-4 rounded-full shadow-xl hover:bg-gray-100 transition-transform transform hover:scale-110"
+            aria-label="Next Image"
+          >
+            <FaAngleRight className=" text-3xl lg:text-4xl text-gray-800" />
+          </button>
+        </div>
+        <div
+          className="flex transition-transform duration-1000 ease-in-out"
+          style={{ transform: `translateX(-${currentImage * 100}%)` }}
+        >
+          {desktopImages.map((image, index) => (
+            <div className="w-full h-full flex-shrink-0" key={index}>
+              <img
+                src={image}
+                alt={`Slide ${index}`}
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Mobile Version */}
+      <div className="md:hidden relative w-full h-[250px] sm:h-[300px]">
         <div className="absolute inset-0 flex items-center justify-between px-4">
           <button
             onClick={prevImage}
@@ -64,46 +99,12 @@ const BannerProduct = () => {
           className="flex transition-transform duration-1000 ease-in-out"
           style={{ transform: `translateX(-${currentImage * 100}%)` }}
         >
-          {desktopImages.map((image, index) => (
-            <div className="w-full h-full flex-shrink-0" key={index}>
-              <img
-                src={image}
-                alt={`Slide ${index}`}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Mobile Version */}
-      <div className="md:hidden relative w-full h-48">
-        <div className="absolute inset-0 flex items-center justify-between px-2">
-          <button
-            onClick={prevImage}
-            className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-100 transition-transform transform hover:scale-110"
-            aria-label="Previous Image"
-          >
-            <FaAngleLeft className="text-xl text-gray-800" />
-          </button>
-          <button
-            onClick={nextImage}
-            className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-100 transition-transform transform hover:scale-110"
-            aria-label="Next Image"
-          >
-            <FaAngleRight className="text-xl text-gray-800" />
-          </button>
-        </div>
-        <div
-          className="flex transition-transform duration-1000 ease-in-out"
-          style={{ transform: `translateX(-${currentImage * 100}%)` }}
-        >
           {mobileImages.map((image, index) => (
             <div className="w-full h-full flex-shrink-0" key={index}>
               <img
                 src={image}
                 alt={`Slide ${index}`}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover rounded-lg"
               />
             </div>
           ))}

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import SummaryApi from "../common";
-import { FaStar, FaStarHalf } from "react-icons/fa";
+import { FaShoppingCart, FaStar, FaStarHalf } from "react-icons/fa";
 import displayINRCurrency from "../helpers/displayCurrency";
 import CategroyWiseProductDisplay from "../components/CategoryWiseProductDisplay";
 import addToCart from "../helpers/addToCart";
@@ -9,8 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchUserAddToCartCount,
   fetchUserCartData,
-  setCartsCount,
 } from "../store/cartsSlice";
+import OrderNow from "../components/OrderNowBtn/OrderNow";
 
 const ProductDetails = () => {
   const dispatch = useDispatch();
@@ -88,19 +88,12 @@ const ProductDetails = () => {
     dispatch(fetchUserAddToCartCount());
   };
 
-  const handleBuyProduct = async (e, id) => {
-    await addToCart(e, user?._id, id);
-    dispatch(fetchUserCartData());
-    dispatch(fetchUserAddToCartCount());
-    navigate("/place-order");
-  };
-
   return (
-    <div className="container mx-auto p-4 md:p-6 lg:p-8">
+    <div className="container mx-auto p-1 sm:p-4 md:p-6 lg:p-8">
       <div className="min-h-[200px] grid lg:grid-cols-2 gap-8">
         {/* Product Image */}
         <div className="flex flex-col gap-4">
-          <div className="relative h-96 bg-gray-100 p-4 rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105">
+          <div className="relative h-96 bg-gray-100 overflow-hidden border transition-transform transform hover:scale-105">
             {loading ? (
               <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
                 <div className="border-t-4 border-blue-500 border-solid rounded-full w-12 h-12 animate-spin"></div>
@@ -188,7 +181,7 @@ const ProductDetails = () => {
               </div>
 
               <div className="flex items-center gap-3 text-lg lg:text-xl font-semibold">
-                <p className="text-red-600">
+                <p className="text-[#FF5722] font-bold">
                   {displayINRCurrency(data.sellingPrice)}
                 </p>
                 <p className="text-gray-500 line-through text-sm">
@@ -197,16 +190,12 @@ const ProductDetails = () => {
               </div>
 
               <div className="flex items-center gap-3">
-                <button
-                  className="border-2 border-[#FF5722] rounded px-4 py-2 text-white bg-[#FF5722] text-sm font-medium hover:bg-white hover:text-[#FF5722] transition duration-300 shadow-md"
-                  onClick={(e) => handleBuyProduct(e, data?._id)}
-                >
-                  Buy Now
-                </button>
+                <OrderNow productId={data?._id} />
                 <button
                   className="border-2 border-[#FF5722] rounded px-4 py-2 text-[#FF5722] bg-white text-sm font-medium hover:bg-[#FF5722] hover:text-white transition duration-300 shadow-md"
                   onClick={(e) => handleAddToCart(e, data?._id)}
                 >
+                  <FaShoppingCart className="inline-block mr-2" />
                   Add To Cart
                 </button>
               </div>
