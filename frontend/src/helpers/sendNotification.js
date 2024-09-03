@@ -1,4 +1,4 @@
-const SERVER_URL = "http://localhost:4000"; // Your server URL
+const SERVER_URL = "https://g-valy.onrender.com"; // Your server URL
 
 async function registerServiceWorker() {
   try {
