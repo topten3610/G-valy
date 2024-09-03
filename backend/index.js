@@ -8,11 +8,14 @@ const router = require('./routes');
 const app = express();
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:5173"],
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "https://g-valy.vercel.app",
+    ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Ensure methods include OPTIONS
   })
-
 );
 
 app.use(express.json()); // Parse JSON bodies
