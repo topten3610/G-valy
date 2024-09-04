@@ -22,7 +22,7 @@ function OrderNow({ productId, className = "" }) {
 
   return (
     <button
-      className={`border-2 border-[#FF5722] rounded px-1 sm:px-4 sm:py-2 sm:mt-0 text-white bg-[#FF5722] text-sm font-medium hover:bg-white hover:text-[#FF5722] transition duration-300 shadow-md flex sm:items-center sm:justify-between ${className}`}
+      className={`border-2 border-[#FF5722] rounded px-4 py-2 sm:mt-0 text-white bg-[#FF5722] text-sm font-medium hover:bg-white hover:text-[#FF5722] transition duration-300 shadow-md flex items-center justify-between ${className}`}
       onClick={(e) => handleBuyProduct(e, productId)}
     >
       <FaShoppingBag /> &nbsp; Order Now

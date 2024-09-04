@@ -1,9 +1,21 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { FaEdit, FaTrashAlt, FaInfoCircle } from "react-icons/fa";
 import SummaryApi from "../../common";
 import displayINRCurrency from "../../helpers/displayCurrency";
 import OrderDetailsModal from "../OrderDetailsModal";
+
+// Utility function to format date/time
+const formatDate = (dateString) => {
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  };
+  return new Date(dateString).toLocaleDateString("en-US", options);
+};
 
 const OrderManagement = () => {
   const [orders, setOrders] = useState([]);
@@ -20,7 +32,13 @@ const OrderManagement = () => {
           credentials: "include",
         });
         const dataResponse = await response.json();
-        setOrders(dataResponse.orders || []);
+
+        // Sort orders by creation date in descending order
+        const sortedOrders = (dataResponse.orders || []).sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+
+        setOrders(sortedOrders);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -36,7 +54,7 @@ const OrderManagement = () => {
       const response = await fetch(
         `${SummaryApi.updateOrderStatus.url}/${orderId}`,
         {
-          method:  SummaryApi.updateOrderStatus.method,
+          method: SummaryApi.updateOrderStatus.method,
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
@@ -44,9 +62,8 @@ const OrderManagement = () => {
           body: JSON.stringify({ orderStatus: status }),
         }
       );
-      const responseData = await response.json()
-      console.log(responseData);
-      
+      const responseData = await response.json();
+
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -62,7 +79,6 @@ const OrderManagement = () => {
     }
   };
 
-
   const deleteOrder = async (orderId) => {
     try {
       const response = await fetch(
@@ -72,7 +88,6 @@ const OrderManagement = () => {
           credentials: "include",
         }
       );
-
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -86,7 +101,6 @@ const OrderManagement = () => {
       setError(err.message);
     }
   };
-
 
   const handleViewDetails = (order) => {
     setSelectedOrder(order);
@@ -110,7 +124,7 @@ const OrderManagement = () => {
         <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
           <thead>
             <tr className="bg-gray-800 text-white">
-              <th className="py-3 px-4 text-left">Order ID</th>
+              <th className="py-3 px-4 text-left">Order Placed</th>
               <th className="py-3 px-4 text-left">Customer Name</th>
               <th className="py-3 px-4 text-left">Status</th>
               <th className="py-3 px-4 text-left">Total Amount</th>
@@ -120,7 +134,9 @@ const OrderManagement = () => {
           <tbody>
             {orders.map((order) => (
               <tr key={order._id} className="hover:bg-gray-100">
-                <td className="py-2 px-4 border-b text-sm">{order._id}</td>
+                <td className="py-2 px-4 border-b text-sm">
+                  {formatDate(order.createdAt)}
+                </td>
                 <td className="py-2 px-4 border-b text-sm">
                   {order.customer.name}
                 </td>

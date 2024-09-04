@@ -86,7 +86,7 @@ const CategroyWiseProductDisplay = ({ category, heading }) => {
                 </div>
                 <div className="p-1 sm:p-4 grid gap-0 sm:gap-4 ">
                   <h2 className="font-medium overflow-hidden text-base text-black truncate">
-                    {product?.productName} 
+                    {product?.productName}
                   </h2>
                   <p className="capitalize text-slate-500">
                     {product?.category}
@@ -111,7 +111,7 @@ const CategroyWiseProductDisplay = ({ category, heading }) => {
                     </button>
                     <OrderNow
                       productId={data?._id}
-                      className="py-0 justify-center mt-2"
+                      className="items-center justify-center mt-2"
                     />
                   </div>
                 </div>
