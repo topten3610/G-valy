@@ -1,4 +1,6 @@
-const SERVER_URL = "https://g-valy.onrender.com"; // Your server URL
+import { backendDomain } from "../common";
+
+const SERVER_URL = backendDomain;
 
 async function registerServiceWorker() {
   try {

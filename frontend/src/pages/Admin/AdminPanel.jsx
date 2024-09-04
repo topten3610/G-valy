@@ -7,16 +7,31 @@ import registerServiceWorker from "../../helpers/sendNotification";
 
 
 const AdminPanel = () => {
-  const user = useSelector((state) => state?.user?.user);
+  const { user, loading, error } = useSelector((state) => state?.user);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user?.role === ROLE.ADMIN) {
-      registerServiceWorker()
-    } else {
-      navigate("/");
+    const checkUserRole = () => {
+      if (user?.role === ROLE.ADMIN) {
+        registerServiceWorker();
+      } else {
+        navigate("/");
+      }
+    };
+    console.log(user);
+    // Run checkUserRole when user is not null and not loading
+    if (user?.role === ROLE.ADMIN || user === undefined) {
+      checkUserRole();
     }
-  }, [user?._id]);
+  }, [user?.role, navigate]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="min-h-[calc(100vh-120px)] flex flex-col md:flex-row">

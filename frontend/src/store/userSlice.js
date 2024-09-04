@@ -17,7 +17,10 @@ export const fetchUserDetails = createAsyncThunk(
         throw new Error("Network response was not ok");
       }
       const userData = await response.json();
-      return userData
+      if (userData.data === null) {
+       return {}
+      }
+      return userData 
     } catch (error) {
       return rejectWithValue(error.message);
     }
