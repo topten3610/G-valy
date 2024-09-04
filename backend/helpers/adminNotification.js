@@ -19,7 +19,7 @@ const adminNotification = async (orderDetails) => {
       body: `Order has been created By ${orderDetails.customer.name} .`,
       icon: "https://www.shutterstock.com/shutterstock/photos/2122476482/display_1500/stock-vector-yummy-smile-emoji-with-tongue-lick-mouth-delicious-tasty-food-symbol-for-social-network-yummy-and-2122476482.jpg",
       data: {
-        url: "https://g-valy.vercel.app/admin-panel/all-orders",
+        url: "https://g-valy.vercel.app",
       },
     });
 
