@@ -1,45 +1,40 @@
 self.addEventListener("push", (event) => {
   const data = event.data.json();
-  console.log("Push event data:", data);
 
   self.registration.showNotification(data.title, {
     body: data.body,
     icon: data.icon,
     data: {
-      url: data.url, // URL to redirect when notification is clicked
+      url: data.data.url, // URL to redirect when notification is clicked
     },
   });
 });
 
-self.addEventListener("notificationclick", (event) => {
-  event.preventDefault(); // Prevent the default action of the notification click
-
-  // Get the URL from the notification data
-  const url = event.notification.data.url;
-  console.log("Notification click URL:", url);
-
+self.addEventListener("notificationclick", function (event) {
   event.notification.close(); // Close the notification
 
+  // Ensure clients API is used in the service worker context
   event.waitUntil(
-    (async () => {
-      // Check if the URL is already open
-      const clientList = await clients.matchAll({
-        type: "window",
-        includeUncontrolled: true,
-      });
+    clients
+      .matchAll({ type: "window", includeUncontrolled: true })
+      .then(function (clientList) {
+        const urlToOpen = new URL(
+          event.notification.data.url,
+          self.location.origin
+        ).href;
 
-      for (const client of clientList) {
-        if (client.url === url && "focus" in client) {
-          console.log("Focusing existing client:", client.url);
-          return client.focus();
+        for (let i = 0; i < clientList.length; i++) {
+          const client = clientList[i];
+          // If the URL is already open, focus the window
+          if (client.url === urlToOpen && "focus" in client) {
+            return client.focus();
+          }
         }
-      }
 
-      // Open a new window if the URL is not open
-      if (clients.openWindow) {
-        console.log("Opening new window with URL:", url);
-        return clients.openWindow(url);
-      }
-    })()
+        // If the URL is not already open, open a new window/tab
+        if (clients.openWindow) {
+          return clients.openWindow(urlToOpen);
+        }
+      })
   );
 });
