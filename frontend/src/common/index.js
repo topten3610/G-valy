@@ -1,5 +1,5 @@
-// export const backendDomain = "http://localhost:4000";
-export const backendDomain = "https://g-valy.onrender.com";
+export const backendDomain = "http://localhost:4000";
+// export const backendDomain = "https://g-valy.onrender.com";
 
 const SummaryApi = {
   signUP: {

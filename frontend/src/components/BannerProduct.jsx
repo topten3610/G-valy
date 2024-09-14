@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import banner from "../assest/banner/banner1.png";
-import image1 from "../assest/banner/img1.webp";
+import banner from "../assest/banner/banner1.jpeg";
 import image2 from "../assest/banner/img2.webp";
 import image3 from "../assest/banner/img3.jpg";
 import image4 from "../assest/banner/img4.jpg";
@@ -42,23 +41,23 @@ const BannerProduct = () => {
   }, [currentImage]);
 
   return (
-    <div className="relative overflow-hidden rounded-lg shadow-lg">
+    <div className="md:container md:m-auto relative overflow-hidden rounded-lg">
       {/* Desktop and Tablet Version */}
-      <div className="hidden md:block relative w-full h-[400px] lg:h-[400px] xl:h-[400px]">
-        <div className="absolute inset-0 flex items-center justify-between px-6 lg:px-8">
+      <div className="hidden md:block relative w-full h-[400px] lg:h-[520px] xl:h-[520px]">
+        <div className="absolute inset-0 flex items-center justify-between px-4 lg:px-8">
           <button
             onClick={prevImage}
-            className=" z-10 p-3 lg:p-4 rounded-full shadow-xl hover:bg-gray-100 transition-transform transform hover:scale-110"
+            className="z-10 p-2 lg:p-4 rounded-full shadow-xl bg-white hover:bg-gray-200 transition-transform transform hover:scale-110"
             aria-label="Previous Image"
           >
-            <FaAngleLeft className="  text-3xl lg:text-4xl text-gray-800" />
+            <FaAngleLeft className="text-xl lg:text-3xl text-gray-800" />
           </button>
           <button
             onClick={nextImage}
-            className=" z-10 p-3 lg:p-4 rounded-full shadow-xl hover:bg-gray-100 transition-transform transform hover:scale-110"
+            className="z-10 p-2 lg:p-4 rounded-full shadow-xl bg-white hover:bg-gray-200 transition-transform transform hover:scale-110"
             aria-label="Next Image"
           >
-            <FaAngleRight className=" text-3xl lg:text-4xl text-gray-800" />
+            <FaAngleRight className="text-xl lg:text-3xl text-gray-800" />
           </button>
         </div>
         <div
@@ -70,7 +69,7 @@ const BannerProduct = () => {
               <img
                 src={image}
                 alt={`Slide ${index}`}
-                className="w-full h-full object-cover rounded-lg"
+                className="w-full h-full object-fill  rounded-lg"
               />
             </div>
           ))}
@@ -82,17 +81,17 @@ const BannerProduct = () => {
         <div className="absolute inset-0 flex items-center justify-between px-4">
           <button
             onClick={prevImage}
-            className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-100 transition-transform transform hover:scale-110"
+            className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-200 transition-transform transform hover:scale-110"
             aria-label="Previous Image"
           >
-            <FaAngleLeft className="text-2xl text-gray-800" />
+            <FaAngleLeft className="text-xl text-gray-800" />
           </button>
           <button
             onClick={nextImage}
-            className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-100 transition-transform transform hover:scale-110"
+            className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-200 transition-transform transform hover:scale-110"
             aria-label="Next Image"
           >
-            <FaAngleRight className="text-2xl text-gray-800" />
+            <FaAngleRight className="text-xl text-gray-800" />
           </button>
         </div>
         <div
