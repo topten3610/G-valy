@@ -1,4 +1,4 @@
-export const backendDomain = "http://localhost:4000";
+export const backendDomain = "esalerbd.com";
 // export const backendDomain = "https://g-valy.onrender.com";
 
 const SummaryApi = {
