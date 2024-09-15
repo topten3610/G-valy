@@ -12,6 +12,8 @@ app.use(
       "http://localhost:3000",
       "http://localhost:5173",
       "https://g-valy.vercel.app",
+      "https://esalerbd.com",
+      "https://www.esalerbd.com",
       "esalerbd.com",
     ],
     credentials: true,
