@@ -14,6 +14,8 @@ import OrderPage from '../pages/OrderPage'
 import OrderManagement from '../pages/Admin/AllOrders'
 import UserProfile from '../pages/UserProfile/UserProfile'
 import ForgotPassword from '../pages/ForgotPassword'
+import AboutUs from "../pages/AboutUs/AboutUs";
+import ContactUs from '../pages/ContactUs/ContactUs'
 
 const router = createBrowserRouter([
   {
@@ -23,6 +25,14 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <Home />,
+      },
+      {
+        path: "/about-us",
+        element: <AboutUs />,
+      },
+      {
+        path: "/contact-us",
+        element: <ContactUs />,
       },
       {
         path: "profile",
@@ -60,23 +70,23 @@ const router = createBrowserRouter([
         path: "place-order",
         element: <OrderPage />,
       },
+    ],
+  },
+  {
+    path: "admin-panel",
+    element: <AdminPanel />,
+    children: [
       {
-        path: "admin-panel",
-        element: <AdminPanel />,
-        children: [
-          {
-            path: "all-users",
-            element: <AllUsers />,
-          },
-          {
-            path: "all-products",
-            element: <AllProducts />,
-          },
-          {
-            path: "all-orders",
-            element: <OrderManagement />,
-          },
-        ],
+        path: "all-users",
+        element: <AllUsers />,
+      },
+      {
+        path: "all-products",
+        element: <AllProducts />,
+      },
+      {
+        path: "all-orders",
+        element: <OrderManagement />,
       },
     ],
   },

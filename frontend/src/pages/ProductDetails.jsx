@@ -160,9 +160,11 @@ const ProductDetails = () => {
             </div>
           ) : (
             <div className="space-y-4 border-t border-gray-200 pt-4">
-              <p className="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm font-medium">
-                {data?.brandName}
-              </p>
+              <div>
+                <p className="bg-red-100 inline-block text-red-600 px-3 py-1 rounded-full text-sm font-medium">
+                  {data?.brandName}
+                </p>
+              </div>
               <h2 className="text-2xl lg:text-3xl font-bold leading-tight">
                 {data?.productName}
               </h2>
@@ -201,7 +203,7 @@ const ProductDetails = () => {
               </div>
 
               <div>
-                <p className="text-gray-700 font-medium text-sm">
+                <p className="text-gray-600 font-medium text-sm">
                   Description:
                 </p>
                 <p className="text-sm text-gray-700">{data?.description}</p>

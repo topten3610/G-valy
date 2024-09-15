@@ -94,7 +94,7 @@ const HorizontalCardProduct = ({ category, heading }) => {
   return (
     <div className="container mx-auto px-1 sm:px-4 my-6 relative">
       <div className="flex w-full items-center justify-between">
-        <h2 className="text-2xl text-black mb-6">{heading}</h2>
+        <h2 className="text-2xl text-black mb-6 ">{heading}</h2>
         <Link
           to={"/product-category?category=" + category}
           className="cursor-pointer"

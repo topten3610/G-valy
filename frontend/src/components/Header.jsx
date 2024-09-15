@@ -10,6 +10,7 @@ import { setUserDetails } from "../store/userSlice";
 import ROLE from "../common/role";
 import ConfirmLogoutModal from "./ConfirmLogoutModal";
 
+import mainLogo from "../assest/main_logo1.png";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -75,7 +76,7 @@ const Header = () => {
         toast.error(data.message || "Logout failed.");
       }
     } catch (error) {
-      toast.error("An unexpected error occurred while logging out.",error);
+      toast.error("An unexpected error occurred while logging out.", error);
     } finally {
       setLogoutModalOpen(false);
     }
@@ -94,15 +95,17 @@ const Header = () => {
   };
 
   return (
-    <header className="h-16 shadow bg-white fixed w-full z-40">
-      
+    <header className="h-16 bg-white sticky top-0 w-full z-50">
       <div className="h-full container mx-auto flex items-center px-4 justify-between">
-        <Link
-          to="/"
-          className="text-lg font-bold text-[#FF5722] hover:text-orange-600 transition-colors"
-        >
-          Rm
-        </Link>
+        <div className="text-lg   block">
+          <Link to="/">
+            <img
+              src={mainLogo}
+              alt="main_logo"
+              className=" w-40 h-10 object-contain"
+            />
+          </Link>
+        </div>
 
         {/* Desktop Search Bar */}
         <div className="hidden lg:flex items-center w-full justify-between max-w-lg border rounded-md bg-white  transition-shadow duration-300">

@@ -35,9 +35,8 @@ const AdminPanel = () => {
 
   return (
     <div className="min-h-[calc(100vh-120px)] flex flex-col md:flex-row">
-     
       <aside className="bg-white min-h-full w-full md:max-w-60 customShadow">
-        <div className="h-32 flex justify-center items-center flex-col">
+        <div className="md:h-32 px-4 md:px-0 pt-4 md:pt-0 md:mt-10 flex md:justify-center md:items-center  md:flex-col">
           <div className="text-5xl cursor-pointer relative flex justify-center">
             {user?.profilePic ? (
               <img
@@ -49,13 +48,18 @@ const AdminPanel = () => {
               <FaRegCircleUser />
             )}
           </div>
-          <p className="capitalize text-lg font-semibold">{user?.name}</p>
-          <p className="text-sm">{user?.role}</p>
+          <div className="ml-4 md:ml-0">
+            <p className="capitalize text-lg font-semibold">{user?.name}</p>
+            <p className="text-sm">{user?.role}</p>
+          </div>
         </div>
 
         {/***navigation */}
         <div>
           <nav className="grid p-4">
+            <Link to={"/"} className="px-2 py-1 hover:bg-slate-100 rounded">
+              Go To Home Page
+            </Link>
             <Link
               to={"all-users"}
               className="px-2 py-1 hover:bg-slate-100 rounded"
