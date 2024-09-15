@@ -70,23 +70,23 @@ const router = createBrowserRouter([
         path: "place-order",
         element: <OrderPage />,
       },
-    ],
-  },
-  {
-    path: "admin-panel",
-    element: <AdminPanel />,
-    children: [
       {
-        path: "all-users",
-        element: <AllUsers />,
-      },
-      {
-        path: "all-products",
-        element: <AllProducts />,
-      },
-      {
-        path: "all-orders",
-        element: <OrderManagement />,
+        path: "admin-panel",
+        element: <AdminPanel />,
+        children: [
+          {
+            path: "all-users",
+            element: <AllUsers />,
+          },
+          {
+            path: "all-products",
+            element: <AllProducts />,
+          },
+          {
+            path: "all-orders",
+            element: <OrderManagement />,
+          },
+        ],
       },
     ],
   },
