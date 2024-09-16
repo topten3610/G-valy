@@ -3,6 +3,7 @@ import { FaEdit, FaTrashAlt, FaInfoCircle } from "react-icons/fa";
 import SummaryApi from "../../common";
 import displayINRCurrency from "../../helpers/displayCurrency";
 import OrderDetailsModal from "../OrderDetailsModal";
+import { FaSpinner } from "react-icons/fa6";
 
 // Utility function to format date/time
 const formatDate = (dateString) => {
@@ -112,7 +113,17 @@ const OrderManagement = () => {
     setSelectedOrder(null);
   };
 
-  if (loading) return <p className="text-center">Loading...</p>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="flex flex-col items-center space-y-4">
+          <FaSpinner className="animate-spin text-blue-500 text-4xl" />
+          <p className="text-center text-lg font-semibold text-gray-700">
+            Loading...
+          </p>
+        </div>
+      </div>
+    );
   if (error) return <p className="text-center text-red-500">Error: {error}</p>;
 
   return (

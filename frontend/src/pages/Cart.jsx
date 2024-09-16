@@ -220,7 +220,7 @@ const Cart = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <button
-                    className="border border-red-600 text-red-600 hover:bg-red-600 hover:text-white w-8 h-8 flex justify-center items-center rounded-full text-xl"
+                    className="border border-[#FF5722] text-red-600 hover:bg-[#FF5722] hover:text-white w-8 h-8 flex justify-center items-center rounded-full text-xl"
                     onClick={() =>
                       updateCartQuantity(
                         product?.productId._id,
@@ -235,7 +235,7 @@ const Cart = () => {
                     {product?.quantity}
                   </span>
                   <button
-                    className="border border-red-600 text-red-600 hover:bg-red-600 hover:text-white w-8 h-8 flex justify-center items-center rounded-full text-xl"
+                    className="border border-[#FF5722] text-red-600 hover:bg-[#FF5722] hover:text-white w-8 h-8 flex justify-center items-center rounded-full text-xl"
                     onClick={() =>
                       updateCartQuantity(
                         product?.productId._id,

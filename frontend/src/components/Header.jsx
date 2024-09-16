@@ -102,17 +102,17 @@ const Header = () => {
             <img
               src={mainLogo}
               alt="main_logo"
-              className=" w-40 h-10 object-contain"
+              className=" w-20 h-10 md:w-40 md:h-10 object-contain"
             />
           </Link>
         </div>
 
         {/* Desktop Search Bar */}
-        <div className="hidden lg:flex items-center w-full justify-between max-w-lg border rounded-md bg-white  transition-shadow duration-300">
+        <div className="hidden lg:flex items-center w-full justify-between max-w-lg border rounded-3xl  bg-white  transition-shadow duration-300">
           <input
             type="text"
             placeholder="Search products..."
-            className="w-full py-2 px-4 rounded-md outline-none border-none focus:ring-2 focus:ring-[#FF5722] transition-all duration-300"
+            className="w-full py-2 px-4 rounded-3xl outline-none border-none focus:ring-2 focus:ring-[#FF5722] transition-all duration-300"
             onChange={handleSearchChange}
             value={searchQuery}
           />

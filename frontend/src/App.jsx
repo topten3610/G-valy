@@ -83,7 +83,7 @@ function App() {
           />
         </Helmet>
         
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex h-full w-full justify-center items-center min-h-screen bg-transparent">
       <div className="flex flex-col items-center space-y-4">
         <FaSpinner className="animate-spin text-blue-500 text-6xl" />
         <span className="text-gray-700 text-xl font-semibold">Loading...</span>
@@ -139,13 +139,13 @@ function App() {
         />
       </Helmet>
       <ScrollToTop />
-      <ToastContainer position="top-center" />
       {/* <TopNavBar /> */}
       <Header />
       <main className="min-h-[calc(100vh-120px)]">
         <Outlet />
       </main>
       <Footer />
+      <ToastContainer position="top-center" />
     </>
   );
 }

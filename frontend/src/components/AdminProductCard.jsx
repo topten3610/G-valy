@@ -28,7 +28,7 @@ const AdminProductCard = ({ data, fetchData }) => {
   };
 
   return (
-    <div className="relative bg-white p-4 rounded shadow-md">
+    <div className="relative bg-white p-4 rounded-xl shadow-md">
       <div className="w-40">
         <div className="w-32 h-32 flex justify-center items-center">
           <img

@@ -4,10 +4,12 @@ import { toast } from "react-toastify";
 import moment from "moment";
 import { MdModeEdit } from "react-icons/md";
 import ChangeUserRole from "../../components/ChangeUserRole";
+import { FaSpinner } from "react-icons/fa6";
 
 const AllUsers = () => {
   const [allUser, setAllUsers] = useState([]);
   const [openUpdateRole, setOpenUpdateRole] = useState(false);
+  const [loading,setLoading] = useState(false);
   const [updateUserDetails, setUpdateUserDetails] = useState({
     email: "",
     name: "",
@@ -16,6 +18,7 @@ const AllUsers = () => {
   });
 
   const fetchAllUsers = async () => {
+   setLoading(true); 
     const fetchData = await fetch(SummaryApi.allUser.url, {
       method: SummaryApi.allUser.method,
       credentials: "include",
@@ -27,6 +30,8 @@ const AllUsers = () => {
       setAllUsers(dataResponse.data);
     }
 
+    setLoading(false);
+
     if (dataResponse.error) {
       toast.error(dataResponse.message);
     }
@@ -36,6 +41,18 @@ const AllUsers = () => {
     fetchAllUsers();
   }, []);
 
+  if (loading)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="flex flex-col items-center space-y-4">
+          <FaSpinner className="animate-spin text-blue-500 text-4xl" />
+          <p className="text-center text-lg font-semibold text-gray-700">
+            Loading...
+          </p>
+        </div>
+      </div>
+    );
+  
   return (
     <div className="bg-gray-100 min-h-screen p-4 sm:p-6">
       <div className="max-w-7xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">

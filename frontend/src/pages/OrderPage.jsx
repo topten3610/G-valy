@@ -19,6 +19,7 @@ import {
   increaseSetProduct,
   setOrderInput,
 } from "../store/orderSlice";
+import { FaSpinner } from "react-icons/fa6";
 
 const OrderForm = () => {
   const dispatch = useDispatch();
@@ -37,11 +38,12 @@ const OrderForm = () => {
     deliveryCharge,
     loading,
   } = useSelector((state) => state.order);
-
+ 
   const navigate = useNavigate();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-
+  const [isPlaceOrder, setIsPlaceOrder] = useState(false);
+  
   // Fetch cart data
 
   useEffect(() => {
@@ -64,7 +66,7 @@ const OrderForm = () => {
         toast.error("Please select at least one product");
         return;
       }
-
+      setIsPlaceOrder(true);
       const response = await fetch(SummaryApi.createOrder.url, {
         method: SummaryApi.createOrder.method,
         credentials: "include",
@@ -96,6 +98,7 @@ const OrderForm = () => {
 
       toast.success("Order placed successfully!");
       setIsModalVisible(true); // Show the success modal
+      setIsPlaceOrder(false);
       // Clear cart items from local storage
       localStorage.removeItem("cart");
       dispatch(fetchUserCartDataForOrder());
@@ -552,9 +555,21 @@ const OrderForm = () => {
         <div className="text-right">
           <button
             type="submit"
-            className="bg-blue-600 text-white py-2 px-6 rounded-md shadow hover:bg-blue-700 focus:outline-none"
+            className={`relative bg-gradient-to-r from-blue-500 to-blue-600 text-white py-2 px-6 rounded-md shadow-lg transform transition-transform duration-300 ease-in-out ${
+              isPlaceOrder
+                ? "cursor-wait bg-gradient-to-r from-blue-400 to-blue-500"
+                : "hover:scale-105 hover:shadow-xl"
+            } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            disabled={isPlaceOrder}
           >
-            Place Order
+            {isPlaceOrder ? (
+              <div className="flex items-center justify-center">
+                <FaSpinner className="animate-spin text-white text-lg mr-2" />
+                <span>Placing Order...</span>
+              </div>
+            ) : (
+              "Place Order"
+            )}
           </button>
         </div>
       </form>
