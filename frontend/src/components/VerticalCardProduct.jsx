@@ -1,34 +1,17 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from "react";
 import fetchCategoryWiseProduct from "../helpers/fetchCategoryWiseProduct";
-import displayINRCurrency from "../helpers/displayCurrency";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import addToCart from "../helpers/addToCart";
-import { useDispatch, useSelector } from "react-redux";
-import { FaShoppingCart } from "react-icons/fa";
-import {
-  fetchUserAddToCartCount,
-  fetchUserCartData,
-} from "../store/cartsSlice";
-import OrderNow from "./OrderNowBtn/OrderNow";
+
 import VerticalCard from "./VerticalCard";
 
 const VerticalCardProduct = ({ category, heading }) => {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.user);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showButtons, setShowButtons] = useState(false);
   const scrollElement = useRef();
   const [animateButton, setAnimateButton] = useState(null);
-
-  const handleAddToCart = async (e, productId) => {
-    e.stopPropagation();
-    await addToCart(e, user?._id, productId);
-    dispatch(fetchUserCartData());
-    dispatch(fetchUserAddToCartCount());
-  };
 
   useEffect(() => {
     (async () => {
@@ -78,7 +61,7 @@ const VerticalCardProduct = ({ category, heading }) => {
   return (
     <div
       className={`container ${
-        data?.length  && "md:mb-20"
+        data?.length && "md:mb-20"
       } mx-auto px-1 sm:px-4  relative`}
     >
       {!data?.length <= 0 ? (
@@ -120,13 +103,14 @@ const VerticalCardProduct = ({ category, heading }) => {
         )}
 
         <div
-          className=" overflow-x-auto overflow-y-hidden scrollbar-none"
+          className="overflow-x-auto overflow-y-hidden scrollbar-none"
           ref={scrollElement}
         >
           <VerticalCard
             loading={loading}
             data={data}
-            ContainerClassName=" grid-flow-col"
+            ContainerClassName="grid-flow-col sm:grid-cols-[repeat(auto-fit,minmax(300px,300px))] "
+            cardClassName="md:w-[300px]"
           />
         </div>
       </div>

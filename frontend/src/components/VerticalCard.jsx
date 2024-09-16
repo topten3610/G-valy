@@ -24,7 +24,7 @@ const VerticalCard = ({ loading, data = [], ContainerClassName = "", cardClassNa
 
   return (
     <div
-      className={`grid ${ContainerClassName} grid-cols-[repeat(auto-fit,minmax(160px,160px))] sm:grid-cols-[repeat(auto-fit,minmax(200px,300px))] gap-2 sm:gap-4 overflow-x-auto scrollbar-none transition-all sm:px-10`}
+      className={`grid grid-cols-[repeat(auto-fit,minmax(160px,160px))] sm:grid-cols-[repeat(auto-fit,minmax(200px,300px))] gap-2 sm:gap-4  transition-all sm:px-10 ${ContainerClassName}`}
     >
       {loading
         ? loadingList.map((_, index) => (
@@ -48,7 +48,7 @@ const VerticalCard = ({ loading, data = [], ContainerClassName = "", cardClassNa
             <Link
               key={product?._id}
               to={`/product/${product?._id}`}
-              className={`min-w-[160px] max-w-[300px] bg-white rounded-2xl shadow-lg transition-transform duration-300 ease-in-out transform ${cardClassName}`}
+              className={`min-w-[160px] max-w-[300px]  bg-white rounded-2xl shadow-lg transition-transform duration-300 ease-in-out transform ${cardClassName}`}
               onClick={scrollTop}
             >
               <div className="relative bg-slate-200 rounded-t-2xl h-48 overflow-hidden flex justify-center items-center transition-transform duration-300 ease-in-out">

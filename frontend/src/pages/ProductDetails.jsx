@@ -90,10 +90,10 @@ const ProductDetails = () => {
 
   return (
     <div className="container mx-auto p-1 sm:p-4 md:p-6 lg:p-8">
-      <div className="min-h-[200px] grid lg:grid-cols-2 gap-8">
+      <div className="min-h-[200px] grid grid-cols-1 lg:grid-cols-2 gap-8 p-4 lg:p-8">
         {/* Product Image */}
         <div className="flex flex-col gap-4">
-          <div className="relative h-96 bg-gray-100 overflow-hidden border transition-transform transform hover:scale-105">
+          <div className="relative h-72 sm:h-96 bg-gray-100 overflow-hidden border transition-transform transform hover:scale-105 rounded-lg">
             {loading ? (
               <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
                 <div className="border-t-4 border-blue-500 border-solid rounded-full w-12 h-12 animate-spin"></div>
@@ -133,7 +133,7 @@ const ProductDetails = () => {
               : data?.productImage?.map((imgURL) => (
                   <div
                     key={imgURL}
-                    className="h-16 w-16 bg-gray-100 rounded-full p-1 cursor-pointer transition-transform transform hover:scale-105"
+                    className="h-12 w-12 sm:h-16 sm:w-16 bg-gray-100 rounded-full p-1 cursor-pointer transition-transform transform hover:scale-105"
                     onMouseEnter={() => handleMouseEnterProduct(imgURL)}
                     onClick={() => handleMouseEnterProduct(imgURL)}
                   >
@@ -165,14 +165,14 @@ const ProductDetails = () => {
                   {data?.brandName}
                 </p>
               </div>
-              <h2 className="text-2xl lg:text-3xl font-bold leading-tight">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold leading-tight">
                 {data?.productName}
               </h2>
-              <p className="text-sm text-gray-600 capitalize">
+              <p className="text-xs sm:text-sm text-gray-600 capitalize">
                 {data?.category}
               </p>
 
-              <div className="text-yellow-500 flex items-center gap-1 text-sm">
+              <div className="text-yellow-500 flex items-center gap-1 text-xs sm:text-sm">
                 {[...Array(5)].map((_, index) =>
                   index < 4 ? (
                     <FaStar key={index} />
@@ -182,7 +182,7 @@ const ProductDetails = () => {
                 )}
               </div>
 
-              <div className="flex items-center gap-3 text-lg lg:text-xl font-semibold">
+              <div className="flex items-center gap-3 text-base sm:text-lg lg:text-xl font-semibold">
                 <p className="text-[#FF5722] font-bold">
                   {displayINRCurrency(data.sellingPrice)}
                 </p>
@@ -191,7 +191,7 @@ const ProductDetails = () => {
                 </p>
               </div>
 
-              <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
                 <OrderNow productId={data?._id} />
                 <button
                   className="border-2 border-[#FF5722] rounded px-4 py-2 text-[#FF5722] bg-white text-sm font-medium hover:bg-[#FF5722] hover:text-white transition duration-300 shadow-md"
@@ -206,7 +206,9 @@ const ProductDetails = () => {
                 <p className="text-gray-600 font-medium text-sm">
                   Description:
                 </p>
-                <p className="text-sm text-gray-700">{data?.description}</p>
+                <p className="text-xs sm:text-sm text-gray-700">
+                  {data?.description}
+                </p>
               </div>
             </div>
           )}

@@ -42,7 +42,7 @@ const AdminPanel = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row">
+    <div className="container mx-auto p-1 sm:p-4 md:p-6 lg:p-8 min-h-screen flex flex-col md:flex-row">
       <aside className="bg-white w-full md:w-64 shadow-lg md:shadow-none md:rounded-lg md:min-h-screen relative">
         <div className="flex items-center p-4 border-b border-gray-200">
           <div className="relative flex justify-center items-center w-20 h-20 rounded-full overflow-hidden bg-gray-200">

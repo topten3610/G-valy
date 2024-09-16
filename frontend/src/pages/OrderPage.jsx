@@ -471,7 +471,7 @@ const OrderForm = () => {
               {products.map((product) => (
                 <div
                   key={product.productId + "Order Product"}
-                  className="w-full bg-white my-2 border border-gray-300 rounded-lg shadow-sm flex flex-col md:flex-row"
+                  className="w-full bg-white my-2  rounded-lg shadow-sm flex flex-col md:flex-row"
                 >
                   <div className="w-full md:w-32 h-32 bg-gray-200 rounded-t-lg md:rounded-l-lg md:rounded-t-none overflow-hidden">
                     <img

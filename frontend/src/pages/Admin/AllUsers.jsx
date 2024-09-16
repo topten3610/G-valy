@@ -65,7 +65,7 @@ const AllUsers = () => {
           <div className="overflow-x-auto">
             <table className="min-w-full table-auto">
               <thead>
-                <tr className="bg-gray-800 text-white text-xs sm:text-sm">
+                <tr className="text-xs sm:text-sm">
                   <th className="py-2 px-4 text-left">Sr.</th>
                   <th className="py-2 px-4 text-left">Name</th>
                   <th className="py-2 px-4 text-left">Email</th>

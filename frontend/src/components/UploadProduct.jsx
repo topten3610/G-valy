@@ -69,7 +69,7 @@ const UploadProduct = ({ onClose, fetchData }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-200 bg-opacity-50 flex justify-center items-center">
+    <div className="fixed h-full w-full inset-0 z-50 bg-slate-200 bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl h-[90%] overflow-hidden">
         <div className="flex justify-between items-center mb-4">
           <h2 className="font-semibold text-xl">Upload Product</h2>
@@ -82,7 +82,7 @@ const UploadProduct = ({ onClose, fetchData }) => {
         </div>
 
         <form
-          className="grid gap-4 h-[80%] overflow-y-auto"
+          className="grid gap-4 p-6  h-[100%] overflow-y-auto"
           onSubmit={handleSubmit}
         >
           <div>
@@ -226,19 +226,18 @@ const UploadProduct = ({ onClose, fetchData }) => {
 
           <button
             type="submit"
-            className="w-full py-3 bg-[#FF5722] text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors"
+            className="w-full py-3 mb-6 bg-[#FF5722] text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors"
           >
             Upload Product
           </button>
         </form>
-
-        {openFullScreenImage && (
-          <DisplayImage
-            onClose={() => setOpenFullScreenImage(false)}
-            imgUrl={fullScreenImage}
-          />
-        )}
       </div>
+      {openFullScreenImage && (
+        <DisplayImage
+          onClose={() => setOpenFullScreenImage(false)}
+          imgUrl={fullScreenImage}
+        />
+      )}
     </div>
   );
 };

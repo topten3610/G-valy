@@ -89,7 +89,7 @@ const AdminEditProduct = ({ onClose, productData, fetchData }) => {
   };
 
   return (
-    <div className="fixed w-full  h-full bg-slate-200 bg-opacity-35 top-0 left-0 right-0 bottom-0 flex justify-center items-center">
+    <div className="fixed w-full  h-full bg-slate-200 bg-opacity-35 top-0 left-0 right-0 bottom-0 flex justify-center items-center z-50">
       <div className="bg-white p-4 rounded w-full max-w-2xl h-full max-h-[80%] overflow-hidden">
         <div className="flex justify-between items-center pb-3">
           <h2 className="font-bold text-lg">Edit Product</h2>
@@ -113,7 +113,7 @@ const AdminEditProduct = ({ onClose, productData, fetchData }) => {
             name="productName"
             value={data.productName}
             onChange={handleOnChange}
-            className="p-2 bg-slate-100 border rounded"
+            className="w-full mt-1 p-3 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none"
             required
           />
 
@@ -127,7 +127,7 @@ const AdminEditProduct = ({ onClose, productData, fetchData }) => {
             value={data.brandName}
             name="brandName"
             onChange={handleOnChange}
-            className="p-2 bg-slate-100 border rounded"
+            className="w-full mt-1 p-3 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none"
             required
           />
 
@@ -139,7 +139,7 @@ const AdminEditProduct = ({ onClose, productData, fetchData }) => {
             value={data.category}
             name="category"
             onChange={handleOnChange}
-            className="p-2 bg-slate-100 border rounded"
+            className="w-full mt-1 p-3 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none"
           >
             <option value={""}>Select Category</option>
             {productCategory.map((el, index) => {
@@ -156,11 +156,14 @@ const AdminEditProduct = ({ onClose, productData, fetchData }) => {
           </label>
           <label htmlFor="uploadImageInput">
             <div className="p-2 bg-slate-100 border rounded h-32 w-full flex justify-center items-center cursor-pointer">
-              <div className="text-slate-500 flex justify-center items-center flex-col gap-2">
-                <span className="text-4xl">
-                  <FaCloudUploadAlt />
-                </span>
-                <p className="text-sm">Upload Product Image</p>
+              <div className="w-full h-32 flex justify-center items-center border border-dashed border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-100 cursor-pointer">
+    
+                  <span className="text-4xl">
+                    <FaCloudUploadAlt />
+                  </span>
+                  <p className="text-sm">Upload Product Image</p>
+             
+
                 <input
                   type="file"
                   id="uploadImageInput"
@@ -245,7 +248,7 @@ const AdminEditProduct = ({ onClose, productData, fetchData }) => {
             value={data.description}
           ></textarea>
 
-          <button className="px-3 py-2 bg-red-600 text-white mb-10 hover:bg-red-700">
+          <button className="px-3 py-2 bg-[#FF5722] text-white mb-10 hover:bg-red-700">
             Update Product
           </button>
         </form>

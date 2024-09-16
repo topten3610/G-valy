@@ -40,7 +40,7 @@ const ChangeUserRole = ({ name, email, role, userId, onClose, callFunc }) => {
 
   return (
     <div className="fixed top-0 bottom-0 left-0 right-0 w-full h-full z-10 flex justify-between items-center bg-slate-200 bg-opacity-50">
-      <div className="mx-auto bg-white shadow-md p-4 w-full max-w-sm">
+      <div className="mx-auto bg-white shadow-md rounded-2xl p-4 w-full max-w-sm">
         <button className="block ml-auto" onClick={onClose}>
           <IoMdClose />
         </button>
@@ -68,7 +68,7 @@ const ChangeUserRole = ({ name, email, role, userId, onClose, callFunc }) => {
         </div>
 
         <button
-          className="w-fit mx-auto block  py-1 px-3 rounded-full bg-red-600 text-white hover:bg-red-700"
+          className="w-fit mx-auto block  py-1 px-3 rounded-full bg-[#FF5722] text-white hover:bg-[#ce4218]"
           onClick={updateUserRole}
         >
           Change Role

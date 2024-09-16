@@ -50,9 +50,9 @@ const SearchProduct = () => {
           <p className="text-gray-600 mb-4">
             It seems like we couldn't find any products matching your search.
           </p>
-          <a href="/" className="text-blue-500 hover:underline text-lg">
+          <Link to="/" className="text-blue-500 hover:underline text-lg">
             Go back to the homepage
-          </a>
+          </Link>
         </div>
       )}
 
