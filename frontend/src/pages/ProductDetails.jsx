@@ -102,7 +102,7 @@ const ProductDetails = () => {
               <img
                 src={activeImage}
                 alt="Product"
-                className="h-full w-full object-contain transition-transform duration-300"
+                className="h-full w-full object-cover rounded-lg transition-transform duration-300"
                 onMouseMove={handleZoomImage}
                 onMouseLeave={handleLeaveImageZoom}
                 ref={imgRef}

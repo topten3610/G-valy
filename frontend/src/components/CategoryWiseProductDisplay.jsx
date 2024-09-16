@@ -110,7 +110,7 @@ const CategroyWiseProductDisplay = ({ category, heading }) => {
                       Add to Cart
                     </button>
                     <OrderNow
-                      productId={data?._id}
+                      productId={product?._id}
                       className="items-center justify-center mt-2"
                     />
                   </div>

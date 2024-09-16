@@ -41,11 +41,11 @@ const CategoryList = () => {
                   className="cursor-pointer"
                   key={product?.category}
                 >
-                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden p-4 bg-slate-200 flex items-center justify-center">
+                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden bg-slate-200 flex items-center justify-center">
                     <img
                       src={product?.productImage[0]}
                       alt={product?.category}
-                      className="h-full  mix-blend-multiply hover:scale-125 transition-all"
+                      className="w-full h-full object-cover  hover:scale-125 transition-all"
                     />
                   </div>
                   <p className="text-center text-sm md:text-base capitalize">

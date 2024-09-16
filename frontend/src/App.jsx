@@ -14,6 +14,7 @@ import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import { fetchUserDetails } from "./store/userSlice";
 import { fetchUserAddToCartCount, fetchUserCartData } from "./store/cartsSlice";
 import {  fetchUserCartDataForOrder } from "./store/orderSlice";
+import { FaSpinner } from "react-icons/fa";
 
 // import TopNavBar from "./components/TopNavBar/TopNavBar";
 
@@ -81,7 +82,14 @@ function App() {
             content="https://www.esalerbd.com/src/assest/main_logo.jpeg"
           />
         </Helmet>
-        <div className="border-t-4 border-blue-500 border-solid rounded-full w-16 h-16 animate-spin"></div>
+        
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="flex flex-col items-center space-y-4">
+        <FaSpinner className="animate-spin text-blue-500 text-6xl" />
+        <span className="text-gray-700 text-xl font-semibold">Loading...</span>
+      </div>
+    </div>
+
       </div>
     );
   }

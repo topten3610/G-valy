@@ -35,7 +35,7 @@ const BannerProduct = () => {
   return (
     <div className="md:container md:m-auto relative overflow-hidden rounded-lg">
       {/* Desktop and Tablet Version */}
-      <div className="hidden md:block relative w-full h-[400px] lg:h-[520px] xl:h-[520px]">
+      <div className="hidden md:block relative w-full ">
         <div className="absolute inset-0 flex items-center justify-between px-4 lg:px-8">
           <button
             onClick={prevImage}
@@ -61,7 +61,7 @@ const BannerProduct = () => {
               <img
                 src={image}
                 alt={`Slide ${index}`}
-                className="w-full h-full object-fit  rounded-lg"
+                className="w-full h-full object-contain  rounded-lg"
               />
             </div>
           ))}
@@ -70,8 +70,7 @@ const BannerProduct = () => {
 
       {/* Mobile Version */}
       <div className="md:hidden relative w-full h-auto sm:h-[300px]">
-        <div className="absolute inset-0 flex items-center justify-between px-4">
-        </div>
+        <div className="absolute inset-0 flex items-center justify-between px-4"></div>
         <div
           className="flex transition-transform duration-1000 ease-in-out"
           style={{ transform: `translateX(-${currentImage * 100}%)` }}
@@ -81,7 +80,7 @@ const BannerProduct = () => {
               <img
                 src={image}
                 alt={`Slide ${index}`}
-                className="w-full h-full object-cover rounded-lg"
+                className="w-full h-full object-contain rounded-lg"
               />
             </div>
           ))}
