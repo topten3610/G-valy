@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const AboutUs = () => {
   return (
@@ -109,12 +110,12 @@ const AboutUs = () => {
             excited to have you with us on this journey and look forward to
             exceeding your expectations with every order.
           </p>
-          <a
-            href="/shop"
+          <Link
+            href="/"
             className="bg-[#FF5722] text-white py-3 px-8 rounded-full text-lg hover:bg-[#e24a1d] transition"
           >
             Start Shopping Now
-          </a>
+          </Link>
         </div>
       </div>
     </div>
