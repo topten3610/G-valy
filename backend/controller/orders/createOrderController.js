@@ -76,7 +76,7 @@ const getAllOrderController = async (req, res) => {
   }
 };
 
-// Update order status by orderId
+// Update order status by orderId for admin route
 const updateOrderStatusController = async (req, res) => {
   try {
     const orderId = req.params.id;

@@ -3,7 +3,6 @@ const AdminSubscription = require("../../models/adminSubscriptionSchema");
 const subscribeController = async (req, res) => {
   const subscription = req.body;
   const authKey = subscription.keys.auth;
-
   try {
     // Check if a subscription with the same auth key already exists
     const existingSubscription = await AdminSubscription.findOne({
@@ -23,9 +22,8 @@ const subscribeController = async (req, res) => {
     console.error("Error saving subscription:", error);
     res
       .status(500)
-      .json({ error: "An error occurred while saving the subscription." });
+      .json({ error: "An error occurred while saving the subscription.",error });
   }
 };
-
 
 module.exports = subscribeController
