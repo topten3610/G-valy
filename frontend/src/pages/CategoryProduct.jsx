@@ -189,6 +189,7 @@ const CategoryProduct = () => {
                 type="radio"
                 name="sortBy"
                 value="asc"
+                id="lowToHigh"
                 checked={sortBy === "asc"}
                 onChange={handleSortChange}
               />
@@ -200,6 +201,7 @@ const CategoryProduct = () => {
               <input
                 type="radio"
                 name="sortBy"
+                id="highToLow"
                 value="dsc"
                 checked={sortBy === "dsc"}
                 onChange={handleSortChange}
@@ -220,6 +222,7 @@ const CategoryProduct = () => {
                   type="checkbox"
                   name="category"
                   value={category.value}
+                  id={category.value}
                   checked={!!selectedCategories[category.value]}
                   onChange={handleCategoryChange}
                 />
