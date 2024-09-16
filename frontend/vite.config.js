@@ -8,4 +8,9 @@ export default defineConfig({
     host: true, // Allows network access
     port: 5173, // Specify the port if needed
   },
+  resolve: {
+    alias: {
+      "react-helmet-async": "react-helmet-async",
+    },
+  },
 });
