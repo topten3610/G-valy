@@ -24,7 +24,7 @@ const ContactUs = () => {
             </p>
             <ul className="list-disc list-inside text-gray-600 mb-6">
               <li className="mb-2">
-                <span className="font-semibold text-[#0B1835]">Email:</span>
+                <span className="font-semibold text-[#0B1835]">Email: </span>
                 <a
                   href="mailto:topten3610@gmail.com"
                   className="text-[#FF5722] hover:underline"
@@ -33,12 +33,12 @@ const ContactUs = () => {
                 </a>
               </li>
               <li>
-                <span className="font-semibold text-[#0B1835]">Phone:</span>
+                <span className="font-semibold text-[#0B1835]">Phone: </span>
                 <a
                   href="tel:01620520142"
                   className="text-[#FF5722] hover:underline"
                 >
-                  01620520142
+                  01620510142
                 </a>
               </li>
             </ul>
