@@ -130,7 +130,7 @@ const HorizontalCardProduct = ({ category, heading }) => {
         )}
 
         <div
-          className="flex items-center  gap-1 overflow-x-auto overflow-y-hidden scrollbar-none"
+          className="flex items-center  gap-3 overflow-x-auto overflow-y-hidden scrollbar-none"
           ref={scrollElement}
         >
           {loading
@@ -157,11 +157,11 @@ const HorizontalCardProduct = ({ category, heading }) => {
                   to={`/product/${product?._id}`}
                   className="flex max-w-[50%] min-w-[300px] md:min-w-[300px] h-36 bg-white rounded-lg flex-row transform hover:scale-105 transition-transform duration-300"
                 >
-                  <div className="relative bg-gray-100 overflow-hidden">
+                  <div className="relative bg-white overflow-hidden rounded-l-lg">
                     <img
                       src={product.productImage[0]}
                       alt={product.productName}
-                      className="object-cover h-full w-full transition-transform duration-400 transform hover:scale-110"
+                      className="object-cover  h-full w-full transition-transform duration-400 transform hover:scale-110"
                     />
                   </div>
                   <div className="p-2 flex flex-col justify-between">

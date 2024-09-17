@@ -95,14 +95,14 @@ const Header = () => {
   };
 
   return (
-    <header className="h-16 bg-white sticky top-0 w-full z-50">
+    <header className="h-16 bg-[#D1B9AB] sticky top-0 w-full z-50">
       <div className="h-full container mx-auto flex items-center px-4 justify-between">
         <div className="text-lg   block">
           <Link to="/">
             <img
               src={mainLogo}
               alt="main_logo"
-              className=" w-20 h-10 md:w-40 md:h-10 object-contain"
+              className=" w-20 h-10 mix-blend-multiply md:w-40 md:h-10 object-contain"
             />
           </Link>
         </div>

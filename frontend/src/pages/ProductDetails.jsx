@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import SummaryApi from "../common";
 import { FaShoppingCart, FaStar, FaStarHalf } from "react-icons/fa";
 import displayINRCurrency from "../helpers/displayCurrency";
@@ -30,7 +30,6 @@ const ProductDetails = () => {
   const [zoomStyle, setZoomStyle] = useState({});
   const imgRef = useRef(null); // Ref for the image element
   const params = useParams();
-  const navigate = useNavigate();
 
   const fetchProductDetails = async () => {
     setLoading(true);
@@ -87,6 +86,8 @@ const ProductDetails = () => {
     dispatch(fetchUserCartData());
     dispatch(fetchUserAddToCartCount());
   };
+
+
 
   return (
     <div className="container mx-auto p-1 sm:p-4 md:p-6 lg:p-8">
@@ -191,7 +192,7 @@ const ProductDetails = () => {
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              <div className="flex flex-row items-start sm:items-center gap-3">
                 <OrderNow productId={data?._id} />
                 <button
                   className="border-2 border-[#FF5722] rounded px-4 py-2 text-[#FF5722] bg-white text-sm font-medium hover:bg-[#FF5722] hover:text-white transition duration-300 shadow-md"

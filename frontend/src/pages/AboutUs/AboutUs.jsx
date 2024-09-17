@@ -111,7 +111,7 @@ const AboutUs = () => {
             exceeding your expectations with every order.
           </p>
           <Link
-            href="/"
+            to="/"
             className="bg-[#FF5722] text-white py-3 px-8 rounded-full text-lg hover:bg-[#e24a1d] transition"
           >
             Start Shopping Now

@@ -16,6 +16,7 @@ import UserProfile from '../pages/UserProfile/UserProfile'
 import ForgotPassword from '../pages/ForgotPassword'
 import AboutUs from "../pages/AboutUs/AboutUs";
 import ContactUs from '../pages/ContactUs/ContactUs'
+import NotFound from '../pages/PageNotFound/NotFound'
 
 const router = createBrowserRouter([
   {
@@ -90,6 +91,10 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "*",
+    element: <NotFound/>
+  }
 ]);
 
 
