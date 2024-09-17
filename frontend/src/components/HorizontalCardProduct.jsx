@@ -166,7 +166,10 @@ const HorizontalCardProduct = ({ category, heading }) => {
                   </div>
                   <div className="p-2 flex flex-col justify-between">
                     <h2 className="font-medium text-base text-black truncate whitespace-nowrap">
-                      {product?.productName}
+                    {
+                      product?.productName.length > 20 ?
+                      `${product?.productName.substring(0, 20)}...` : product?.productName
+                    }
                     </h2>
                     <p className="capitalize text-slate-500 text-sm truncate whitespace-nowrap">
                       {product?.category}

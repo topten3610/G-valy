@@ -162,11 +162,11 @@ const ProductDetails = () => {
           ) : (
             <div className="space-y-4 border-t border-gray-200 pt-4">
               <div>
-                <p className="bg-red-100 inline-block text-red-600 px-3 py-1 rounded-full text-sm font-medium">
+                <p className="bg-red-50 inline-block text-red-400 px-3 py-1 rounded-full text-sm font-medium">
                   {data?.brandName}
                 </p>
               </div>
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold leading-tight">
+              <h2 className="text-lg lg:text-xl text-justify font-semibold leading-tight">
                 {data?.productName}
               </h2>
               <p className="text-xs sm:text-sm text-gray-600 capitalize">
