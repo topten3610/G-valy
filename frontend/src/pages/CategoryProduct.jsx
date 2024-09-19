@@ -179,7 +179,7 @@ const CategoryProduct = () => {
       {/* Desktop version */}
       <div className="hidden lg:grid grid-cols-[200px,1fr] gap-4">
         {/* Left side */}
-        <div className="bg-white rounded-2xl  p-2 min-h-[calc(100vh-120px)] ">
+        <div className="bg-slate-50 rounded-2xl  p-2 min-h-[calc(100vh-120px)] ">
           <h3 className="text-base uppercase font-medium text-slate-500 border-b pb-1">
             Sort by
           </h3>
@@ -245,8 +245,8 @@ const CategoryProduct = () => {
             <div className="min-h-[calc(100vh-120px)] overflow-y-scroll max-h-[calc(100vh-120px)]">
               <VerticalCard
                 data={data}
-                ContainerClassName="sm:grid-cols-[repeat(auto-fit,minmax(300px,400px))]"
-                cardClassName="sm:max-w-[400px] sm:min-w-[300px]"
+                ContainerClassName="sm:grid-cols-[repeat(auto-fit,minmax(300px,300px))]"
+                cardClassName="sm:max-w-[300px] sm:min-w-[300px]"
               />
             </div>
           </div>

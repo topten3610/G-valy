@@ -112,12 +112,12 @@ const Header = () => {
           <input
             type="text"
             placeholder="Search products..."
-            className="w-full py-2 px-4 rounded-3xl outline-none border-none focus:ring-2 focus:ring-[#FF5722] transition-all duration-300"
+            className="w-full py-2 px-4 rounded-3xl outline-none border-none focus:ring-2 focus:ring-[#535151] transition-all duration-300"
             onChange={handleSearchChange}
             value={searchQuery}
           />
           <button
-            className="bg-[#FF5722] flex items-center justify-center rounded-full p-2 ml-2 transition-transform duration-300 hover:scale-105 active:scale-95"
+            className="bg-[#535151] flex items-center justify-center rounded-full p-2 ml-2 transition-transform duration-300 hover:scale-105 active:scale-95"
             onClick={executeSearch}
           >
             <GrSearch className="text-white text-xl" />

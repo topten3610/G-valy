@@ -207,7 +207,7 @@ const ProductDetails = () => {
                 <p className="text-gray-600 font-medium text-sm">
                   Description:
                 </p>
-                <p className="text-xs sm:text-sm text-gray-700">
+                <p className="text-xs text-justify  sm:text-sm text-gray-700">
                   {data?.description}
                 </p>
               </div>

@@ -181,7 +181,7 @@ const Cart = () => {
           {cartsData?.map((product, index) => (
             <div
               key={product?._id + index}
-              className="w-full bg-white h-auto my-3 border border-gray-200 rounded-lg shadow-sm grid grid-cols-1 md:grid-cols-[128px,1fr] gap-4 p-4"
+              className="w-full bg-[#F5F5F5] h-auto my-3 border border-gray-300 rounded-lg shadow-sm grid grid-cols-1 md:grid-cols-[128px,1fr] gap-4 p-4"
             >
               <Link to={`/product/${product?.productId?._id}`}>
                 <div className="w-full md:w-32 h-32 bg-gray-100 rounded-lg overflow-hidden">
@@ -201,9 +201,11 @@ const Cart = () => {
                   <MdDelete />
                 </button>
                 <Link to={`/product/${product?.productId?._id}`}>
-                  <h2 className="text-lg font-semibold text-gray-900 truncate">
-                    {product?.productId?.productName}
-                  </h2>
+                  <p className="text-lg text-wrap text-gray-700 truncate">
+                    {product?.productId?.productName.length > 20
+                      ? `${product?.productId?.productName.substring(0, 40)}...`
+                      : product?.productId?.productName}
+                  </p>
                 </Link>
                 <p className="capitalize text-gray-600 mb-2">
                   {product?.productId?.category}
@@ -257,8 +259,8 @@ const Cart = () => {
           {loading ? (
             <div className="h-36 bg-slate-200 border border-slate-300 animate-pulse rounded-lg shadow-md"></div>
           ) : (
-            <div className="bg-white rounded-lg  border border-gray-200 overflow-hidden">
-              <h2 className="text-lg font-semibold bg-[#FF5722] text-white px-4 py-3 sm:px-6 sm:py-4">
+            <div className="border border-gray-400  bg-[#F1F1F1] rounded-lg overflow-hidden">
+              <h2 className="text-lg font-semibold  text-gray-700 px-4 py-3 sm:px-6 sm:py-4">
                 Summary
               </h2>
               <div className="px-4 py-3 sm:px-6 sm:py-4">

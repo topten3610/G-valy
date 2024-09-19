@@ -43,7 +43,7 @@ const AdminPanel = () => {
 
   return (
     <div className="container mx-auto p-1 sm:p-4 md:p-6 lg:p-8 min-h-screen flex flex-col md:flex-row">
-      <aside className="bg-white w-full md:w-64 shadow-lg md:shadow-none md:rounded-lg md:min-h-screen relative">
+      <aside className="border border-gray-400  bg-[#F1F1F1]  w-full md:w-64 shadow-lg md:shadow-none md:rounded-lg md:min-h-screen relative">
         <div className="flex items-center p-4 border-b border-gray-200">
           <div className="relative flex justify-center items-center w-20 h-20 rounded-full overflow-hidden bg-gray-200">
             {user?.profilePic ? (
@@ -72,26 +72,26 @@ const AdminPanel = () => {
 
         {/* Dropdown Menu */}
         <nav
-          className={`md:flex md:flex-col p-4 space-y-2 md:space-y-0 md:p-0 md:space-x-4 transition-transform duration-300 ease-in-out ${
+          className={`md:flex md:flex-col  space-y-2 md:space-y-0 md:p-0 md:space-x-4 transition-transform duration-300 ease-in-out ${
             isMenuOpen ? "block" : "hidden"
           } md:block`}
         >
           <p></p>
           <Link
             to={"all-users"}
-            className="block px-4 py-2 rounded-md hover:bg-gray-100 transition duration-200"
+            className="block px-4 py-2 rounded-md hover:bg-gray-500 hover:text-gray-50 transition duration-200"
           >
             All Users
           </Link>
           <Link
             to={"all-products"}
-            className="block px-4 py-2 rounded-md hover:bg-gray-100 transition duration-200"
+            className="block px-4 py-2 rounded-md hover:bg-gray-500 hover:text-gray-50 transition duration-200"
           >
             All Products
           </Link>
           <Link
             to={"all-orders"}
-            className="block px-4 py-2 rounded-md hover:bg-gray-100 transition duration-200"
+            className="block px-4 py-2 rounded-md hover:bg-gray-500 hover:text-gray-50 transition duration-200"
           >
             All Orders
           </Link>

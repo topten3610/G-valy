@@ -71,7 +71,7 @@ const VerticalCardProduct = ({ category, heading }) => {
             to={"/product-category?category=" + category}
             className="cursor-pointer"
           >
-            <button className="relative border-2  border-[#FF5722] rounded px-4 py-2 text-[#FF5722] bg-white text-sm font-medium hover:bg-[#FF5722] hover:text-white transition duration-300 shadow-md">
+            <button className="relative border-2 border-gray-500rounded px-4 py-2 text-[#FF5722] bg-white text-sm font-medium hover:bg-[#FF5722] hover:text-white transition duration-300 shadow-md">
               See More
             </button>
           </Link>

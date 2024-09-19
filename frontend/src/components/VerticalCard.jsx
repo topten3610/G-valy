@@ -48,13 +48,13 @@ const VerticalCard = ({ loading, data = [], ContainerClassName = "", cardClassNa
             <Link
               key={product?._id}
               to={`/product/${product?._id}`}
-              className={`min-w-[160px] max-w-[300px]  bg-white rounded-2xl shadow-lg transition-transform duration-300 ease-in-out transform ${cardClassName}`}
+              className={`min-w-[160px] max-w-[300px] border border-gray-500  bg-[#F1F1F1] md:rounded-2xl transition-transform duration-300 ease-in-out transform ${cardClassName}`}
               onClick={scrollTop}
             >
-              <div className="relative bg-slate-200 rounded-t-2xl h-48 overflow-hidden flex justify-center items-center transition-transform duration-300 ease-in-out">
+              <div className="relative bg-[#F1F1F1] rounded-t-2xl h-48 overflow-hidden flex justify-center items-center transition-transform duration-300 ease-in-out">
                 <img
                   src={product.productImage[0]}
-                  className="object-cover w-full h-full  transition-transform duration-300 ease-in-out hover:scale-110"
+                  className="object-cover md:object-contain mix-blend-multiply w-full h-full  transition-transform duration-300 ease-in-out hover:scale-110"
                   alt={product?.productName || "Product Image"} // Ensure alt text is descriptive
                 />
               </div>
@@ -75,7 +75,7 @@ const VerticalCard = ({ loading, data = [], ContainerClassName = "", cardClassNa
                 </div>
                 <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between">
                   <button
-                    className="text-sm shadow border-2 border-[#FF5722] text-[#FF5722] sm:px-4 sm:py-2 mt-2 sm:mt-0 rounded-full transition-transform duration-300 ease-in-out transform hover:scale-110 flex items-center justify-center"
+                    className="text-sm shadow border-2 border-[#FF5722] text-[#FF5722] sm:px-4 sm:py-2 mt-2 sm:mt-0 rounded-full transition-transform duration-300 ease-in-out transform md:hover:scale-110 flex items-center justify-center"
                     onClick={(e) => handleAddToCart(e, product?._id)}
                   >
                     <FaShoppingCart className="inline-block mr-2" />

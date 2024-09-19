@@ -99,7 +99,7 @@ const HorizontalCardProduct = ({ category, heading }) => {
           to={"/product-category?category=" + category}
           className="cursor-pointer"
         >
-          <button className="relative border-2 border-[#FF5722] rounded px-4 py-2 text-[#FF5722] bg-white text-sm font-medium hover:bg-[#FF5722] hover:text-white transition duration-300 shadow-md">
+          <button className="relative border-2 border-gray-500 rounded px-4 py-2 text-[#FF5722] bg-white text-sm font-medium hover:bg-[#FF5722] hover:text-white transition duration-300 shadow-md">
             See More
           </button>
         </Link>
@@ -130,7 +130,7 @@ const HorizontalCardProduct = ({ category, heading }) => {
         )}
 
         <div
-          className="flex items-center  gap-3 overflow-x-auto overflow-y-hidden scrollbar-none"
+          className="flex items-center  h-40 gap-3 overflow-x-auto overflow-y-hidden scrollbar-none"
           ref={scrollElement}
         >
           {loading
@@ -155,7 +155,7 @@ const HorizontalCardProduct = ({ category, heading }) => {
                 <Link
                   key={product?._id}
                   to={`/product/${product?._id}`}
-                  className="flex max-w-[50%] min-w-[300px] md:min-w-[300px] h-36 bg-white rounded-lg flex-row transform hover:scale-105 transition-transform duration-300"
+                  className="flex max-w-[50%] min-w-[300px] md:min-w-[300px] h-36 border border-gray-500  bg-[#F1F1F1] rounded-lg flex-row transform hover:scale-105 transition-transform duration-300"
                 >
                   <div className="relative bg-white overflow-hidden rounded-l-lg">
                     <img
@@ -166,10 +166,9 @@ const HorizontalCardProduct = ({ category, heading }) => {
                   </div>
                   <div className="p-2 flex flex-col justify-between">
                     <h2 className="font-medium text-base text-black truncate whitespace-nowrap">
-                    {
-                      product?.productName.length > 20 ?
-                      `${product?.productName.substring(0, 20)}...` : product?.productName
-                    }
+                      {product?.productName.length > 20
+                        ? `${product?.productName.substring(0, 20)}...`
+                        : product?.productName}
                     </h2>
                     <p className="capitalize text-slate-500 text-sm truncate whitespace-nowrap">
                       {product?.category}
