@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import banner from "../assest/banner/banner1.jpeg";
+import banner1 from "../assest/banner/banner1.jpeg";
 import banner2 from "../assest/banner/banner2.jpeg";
 
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
@@ -7,8 +7,8 @@ import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 const BannerProduct = () => {
   const [currentImage, setCurrentImage] = useState(0);
 
-  const desktopImages = [banner2, banner2, banner2];
-  const mobileImages = [banner2, banner2, banner2];
+  const desktopImages = [banner1, banner2, banner1];
+  const mobileImages = [banner1, banner2, banner1];
 
   const nextImage = () => {
     setCurrentImage((prev) => (prev + 1) % desktopImages.length);
