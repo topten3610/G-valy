@@ -9,15 +9,15 @@ const Home = () => {
       <CategoryList />
       <BannerProduct />
 
-      <HorizontalCardProduct category={"Health"} heading={"Health"} />
+      <HorizontalCardProduct category={"health"} heading={"Health"} />
       <HorizontalCardProduct
-        category={"Man"}
+        category={"man"}
         heading={"Popular's man product"}
       />
 
-      <VerticalCardProduct category={"Woman"} heading={"Woman"} />
-      <VerticalCardProduct category={"Fashion"} heading={"Fashion"} />
-      <VerticalCardProduct category={"Beauties"} heading={"Beauties"} />
+      <VerticalCardProduct category={"woman"} heading={"Woman"} />
+      <VerticalCardProduct category={"fashion"} heading={"Fashion"} />
+      <VerticalCardProduct category={"beauties"} heading={"Beauties"} />
     </div>
   );
 };

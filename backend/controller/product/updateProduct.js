@@ -26,4 +26,4 @@ async function updateProductController(req, res) {
   }
 }
 
-module.exports = { updateProductController };
+module.exports =  updateProductController 

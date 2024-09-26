@@ -48,6 +48,7 @@ router.get("/userLogout", userLogout);
 router.get("/all-user", authToken, allUsers);
 router.post("/update-user", authToken, updateUser);
 router.post("/upload-product", authToken, UploadProductController);
+router.put("/update-product", authToken, updateProductController);
 router.delete("/delete-product/:id", authToken, deleteProductController);
 
 // order product

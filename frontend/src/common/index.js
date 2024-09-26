@@ -1,6 +1,6 @@
 export const backendDomain = "https://api.esalerbd.com";
 // export const backendDomain = "https://g-valy.onrender.com";
-
+// export const backendDomain = "http://localhost:5000";
 const SummaryApi = {
   signUP: {
     url: `${backendDomain}/api/signup`,
@@ -36,7 +36,7 @@ const SummaryApi = {
   },
   updateProduct: {
     url: `${backendDomain}/api/update-product`,
-    method: "post",
+    method: "put",
   },
   deleteProduct: {
     url: `${backendDomain}/api/delete-product`,
