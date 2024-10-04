@@ -4,7 +4,7 @@ const subscribeController = async (req, res) => {
   const subscription = req.body;
   const authKey = subscription.keys.auth;
   try {
-    // Check if a subscription with the same auth key already exists
+    // Check if the subscription already exists
     const existingSubscription = await AdminSubscription.findOne({
       "keys.auth": authKey,
     });

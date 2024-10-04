@@ -16,6 +16,7 @@ const createOrderController = async (req, res) => {
       orderStatus,
       totalAmount,
     } = req.body;
+
     // Create a new order instance
     const newOrder = new orderModel({
       customer: {
@@ -30,6 +31,7 @@ const createOrderController = async (req, res) => {
       orderStatus,
       totalAmount,
     });
+
     // Save the order to the database
     const savedOrder = await newOrder.save();
 
@@ -44,6 +46,7 @@ const createOrderController = async (req, res) => {
       message: "Order created successfully",
       order: savedOrder,
     });
+
   } catch (error) {
     res.status(500).json({
       message: "Failed to create order",
@@ -55,7 +58,6 @@ const createOrderController = async (req, res) => {
 // Get an order by ID
 const getAllOrderController = async (req, res) => {
   try {
-    // Retrieve all orders from the database
     const orders = await orderModel.find();
 
     if (orders.length === 0) {

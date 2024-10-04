@@ -1,8 +1,7 @@
-const vapidKeys = {
-  publicKey:
-    "BHJY-xFOsgMKe6ERVtwgiyM6cnYYN29p_oXaweoEjq7JzPK47PUOOb4YmjkHAAdsLdFqAXNwx51eaZjOUW19LAw",
-  privateKey: "FSEfP6M48GHxgTGlqLqTaIkL_ecxNiKQJTCwTvXnCYI",
+const webPushNotification = {
+  publicKey: process.env.WEBPUSH_PUBLICKEY,
+  privateKey: process.env.WEBPUSH_PRIVATEKEY,
 };
 
 
-module.exports = vapidKeys;
+module.exports = webPushNotification;

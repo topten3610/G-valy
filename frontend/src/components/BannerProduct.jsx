@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import banner1 from "../assest/banner/banner1.jpeg";
 import banner2 from "../assest/banner/banner2.jpeg";
 
+
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 
 const BannerProduct = () => {

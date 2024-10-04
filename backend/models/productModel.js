@@ -5,40 +5,40 @@ const productSchema = new mongoose.Schema(
   {
     productName: {
       type: String,
-      required: true, // Ensure product name is always required
-      trim: true, // Remove any trailing/leading spaces
+      required: true, 
+      trim: true, 
     },
     brandName: {
       type: String,
-      required: true, // Ensure brand name is always required
+      required: true, 
       trim: true,
     },
     category: {
       type: String,
-      required: true, // Ensure category is always required
+      required: true, 
       trim: true,
     },
     productImage: {
-      type: [String], // Define as an array of strings for image URLs/paths
+      type: [String], 
       default: [], // Provide an empty array if no images are provided
     },
     description: {
       type: String,
-      trim: true, // Remove any trailing/leading spaces
+      trim: true, 
     },
     price: {
       type: Number,
-      required: true, // Ensure price is always required
-      min: 0, // Ensure price is non-negative
+      required: true, 
+      min: 0, 
     },
     sellingPrice: {
       type: Number,
-      required: true, // Ensure selling price is always required
-      min: 0, // Ensure selling price is non-negative
+      required: true, 
+      min: 0, 
     },
   },
   {
-    timestamps: true, // Automatically add createdAt and updatedAt fields
+    timestamps: true, 
   }
 );
 

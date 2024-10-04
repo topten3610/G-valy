@@ -1,16 +1,16 @@
 const AdminSubscription = require("../models/adminSubscriptionSchema");
-const vapidKeys = require("../secret");
+const webPushNotification = require("../secret");
 const webPush = require("web-push");
+
 webPush.setVapidDetails(
-  "mailto:http://localhost:5173",
-  vapidKeys.publicKey,
-  vapidKeys.privateKey
+  "mailto:https://www.esalerbd.com",
+  webPushNotification.publicKey,
+  webPushNotification.privateKey
 );
 
 const adminNotification = async (orderDetails) => {
   try {
     console.log(orderDetails);
-    // Fetch all admin subscriptions
     const subscriptions = await AdminSubscription.find();
 
     // Prepare the payload

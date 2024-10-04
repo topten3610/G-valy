@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {  FaBars, FaTimes } from "react-icons/fa";
 import { FaRegCircleUser } from "react-icons/fa6";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet,  useNavigate } from "react-router-dom";
 import ROLE from "../../common/role";
 import registerServiceWorker from "../../helpers/sendNotification";
 

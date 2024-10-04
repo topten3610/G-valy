@@ -6,18 +6,18 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       required: [true, "User name is required"],
-      trim: true, // To remove any trailing/leading spaces
+      trim: true, 
     },
     email: {
       type: String,
       required: [true, "Email is required"],
       unique: true,
-      lowercase: true, // To store email in lowercase
+      lowercase: true, 
       trim: true,
     },
     password: {
       type: String,
-      required: [true, "password is required"], // Ensure password is always required
+      required: [true, "password is required"],
     },
     profilePic: {
       type: String,
